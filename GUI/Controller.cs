@@ -1,7 +1,7 @@
 ﻿using DiMappings;
 using Ninject;
 
-namespace GUI
+namespace PanasonicSync.GUI
 {
     public static class Controller
     {

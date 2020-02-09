@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace PanasonicSync.GUI
 {
     public class ButtonModeEnums
     {

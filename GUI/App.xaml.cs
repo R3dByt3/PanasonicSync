@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GUI
+namespace PanasonicSync.GUI
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"

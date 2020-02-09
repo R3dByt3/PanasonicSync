@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GUI.ViewModels
+namespace PanasonicSync.GUI.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

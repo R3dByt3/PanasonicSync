@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataStoring.PanasonicRequest.Envelope">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAACAAAAAAgAAAAAAABAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>PanasonicRequest\Envelope.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Body" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IBody">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Browse" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IBrowse">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="BrowseFlag" />
+      <Property Name="Filter" />
+      <Property Name="ObjectID" />
+      <Property Name="RequestedCount" />
+      <Property Name="SortCriteria" />
+      <Property Name="StartingIndex" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IBrowseFlag">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IFilter">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IObjectID">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IRequestedCount">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.ISortCriteria">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicRequest.IStartingIndex">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

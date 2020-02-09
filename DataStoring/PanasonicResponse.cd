@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataStoring.PanasonicResponse.ResponseBody">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PanasonicResponse\ResponseBody.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IBrowseResponse">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="ParsedResult" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IMovieListResponse">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsCollectionAssociation>
+      <Property Name="Items" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IItem">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="ChannelID" />
+      <Property Name="Class" />
+      <Property Name="RemoteMovie" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IChannelID" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IClass" Collapsed="true">
+    <Position X="11.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="DataStoring.Contracts.PanasonicResponse.IRemoteMovie" Collapsed="true">
+    <Position X="11.25" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

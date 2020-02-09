@@ -43,7 +43,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISettings.cs" />
+    <Compile Include="PanasonicRequest\IRequestBody.cs" />
+    <Compile Include="PanasonicRequest\IBrowse.cs" />
+    <Compile Include="PanasonicRequest\IBrowseFlag.cs" />
+    <Compile Include="PanasonicRequest\IEnvelope.cs" />
+    <Compile Include="PanasonicRequest\IFilter.cs" />
+    <Compile Include="PanasonicRequest\IObjectID.cs" />
+    <Compile Include="PanasonicRequest\IRequestedCount.cs" />
+    <Compile Include="PanasonicRequest\ISortCriteria.cs" />
+    <Compile Include="PanasonicRequest\IStartingIndex.cs" />
+    <Compile Include="PanasonicResponse\IBody.cs" />
+    <Compile Include="PanasonicResponse\IBrowseResponse.cs" />
+    <Compile Include="PanasonicResponse\IChannelID.cs" />
+    <Compile Include="PanasonicResponse\IClass.cs" />
+    <Compile Include="PanasonicResponse\IItem.cs" />
+    <Compile Include="PanasonicResponse\IMovieListResponse.cs" />
+    <Compile Include="PanasonicResponse\IPanasonicResponseRoot.cs" />
+    <Compile Include="PanasonicResponse\IRemoteMovie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpnpResponse\IPanasonicResponse.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

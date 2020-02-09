@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2D87A623-2D40-4C50-AADF-FB3C301FDD2C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GUI</RootNamespace>
-    <AssemblyName>GUI</AssemblyName>
+    <RootNamespace>PanasonicSync.GUI</RootNamespace>
+    <AssemblyName>PanasonicSync.GUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -62,8 +62,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="NetStandard.Logger">
-      <HintPath>..\..\Components\NetStandard.Logger\NetStandard.Logger.dll</HintPath>
+    <Reference Include="NetStandard.Logger, Version=1.0.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NetStandard.Logger\NetStandard.Logger\bin\Release\netstandard2.0\NetStandard.Logger.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
@@ -176,6 +177,14 @@
     <ProjectReference Include="..\DiMappings\DiMappings.csproj">
       <Project>{84D9D35E-9CCE-4492-94CE-987CE2FC40E7}</Project>
       <Name>DiMappings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpnpClient.Contracts\UpnpClient.Contracts.csproj">
+      <Project>{C5262AAD-7555-47FD-847A-49877E48AB12}</Project>
+      <Name>UpnpClient.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpnpClient\UpnpClient.csproj">
+      <Project>{FDB9FD29-C068-44E6-AF63-5F8A8D852C57}</Project>
+      <Name>UpnpClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 
-namespace GUI.Views
+namespace PanasonicSync.GUI.Views
 {
     /// <summary>
     /// Interaktionslogik fÃ¼r MainWindow.xaml

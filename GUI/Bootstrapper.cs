@@ -1,13 +1,13 @@
 ﻿using Caliburn.Micro;
 using Configuration.Contracts;
 using DataStoring;
-using GUI.ViewModels;
+using PanasonicSync.GUI.ViewModels;
 using NetStandard.Logger;
 using Ninject;
 using System;
 using System.Windows;
 
-namespace GUI
+namespace PanasonicSync.GUI
 {
     public class Bootstrapper : BootstrapperBase
     {

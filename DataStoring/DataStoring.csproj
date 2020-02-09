@@ -61,8 +61,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PanasonicControlsResponse\Device.cs" />
+    <Compile Include="PanasonicControlsResponse\Icon.cs" />
+    <Compile Include="PanasonicControlsResponse\IconList.cs" />
+    <Compile Include="PanasonicControlsResponse\Root.cs" />
+    <Compile Include="PanasonicControlsResponse\Service.cs" />
+    <Compile Include="PanasonicControlsResponse\ServiceList.cs" />
+    <Compile Include="PanasonicControlsResponse\SpecVersion.cs" />
+    <Compile Include="PanasonicControlsResponse\X_ACE_LIST.cs" />
+    <Compile Include="PanasonicControlsResponse\X_IPPLTV_LIST.cs" />
+    <Compile Include="PanasonicControlsResponse\X_MAC_ADDRESS_LIST.cs" />
+    <Compile Include="PanasonicRequest\Browse.cs" />
+    <Compile Include="PanasonicRequest\BrowseFlag.cs" />
+    <Compile Include="PanasonicRequest\Envelope.cs" />
+    <Compile Include="PanasonicRequest\Filter.cs" />
+    <Compile Include="PanasonicRequest\ObjectID.cs" />
+    <Compile Include="PanasonicRequest\RequestBody.cs" />
+    <Compile Include="PanasonicRequest\RequestedCount.cs" />
+    <Compile Include="PanasonicRequest\SortCriteria.cs" />
+    <Compile Include="PanasonicRequest\StartingIndex.cs" />
+    <Compile Include="PanasonicResponse\ResponseBody.cs" />
+    <Compile Include="PanasonicResponse\BrowseResponse.cs" />
+    <Compile Include="PanasonicResponse\ChannelID.cs" />
+    <Compile Include="PanasonicResponse\Class.cs" />
+    <Compile Include="PanasonicResponse\PanasonicResponseRoot.cs" />
+    <Compile Include="PanasonicResponse\Item.cs" />
+    <Compile Include="PanasonicResponse\MovieListResponse.cs" />
+    <Compile Include="PanasonicResponse\RemoteMovie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="UpnpResponse\PanasonicDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStoring.Contracts\DataStoring.Contracts.csproj">
@@ -72,8 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="PanasonicResponse.cd" />
+    <None Include="PanasonicRequest.cd" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

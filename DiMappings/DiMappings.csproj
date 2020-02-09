@@ -53,12 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregator.cs" />
-    <Compile Include="Logic\CompressorMappings.cs" />
-    <Compile Include="Logic\ConfiguratorMappings.cs" />
-    <Compile Include="Logic\DBAccessMappings.cs" />
-    <Compile Include="Logic\FileManagerMappings.cs" />
-    <Compile Include="Logic\LoggerFactoryMappings.cs" />
-    <Compile Include="Logic\SettingsMappings.cs" />
+    <Compile Include="Logic\DataBindings.cs" />
+    <Compile Include="Logic\ModuleBindings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +62,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APIClient.Contracts\APIClient.Contracts.csproj">
+      <Project>{C4C5BAE5-679F-4FE6-A87F-C71BA20133FC}</Project>
+      <Name>APIClient.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\APIClient\APIClient.csproj">
+      <Project>{464246FB-B33A-4E42-9D04-AF31A45D6CDD}</Project>
+      <Name>APIClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Configuration.Contracts\Configuration.Contracts.csproj">
       <Project>{ACDEC481-613F-457E-B707-00AF9F89BFEF}</Project>
       <Name>Configuration.Contracts</Name>
@@ -89,6 +93,14 @@
     <ProjectReference Include="..\DataStoring\DataStoring.csproj">
       <Project>{B7E74531-2E05-4D26-A3F0-D3AC55DB33C8}</Project>
       <Name>DataStoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpnpClient.Contracts\UpnpClient.Contracts.csproj">
+      <Project>{C5262AAD-7555-47FD-847A-49877E48AB12}</Project>
+      <Name>UpnpClient.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UpnpClient\UpnpClient.csproj">
+      <Project>{FDB9FD29-C068-44E6-AF63-5F8A8D852C57}</Project>
+      <Name>UpnpClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

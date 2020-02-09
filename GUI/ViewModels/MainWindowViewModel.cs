@@ -1,7 +1,9 @@
 ﻿using NetStandard.Logger;
 using Ninject;
+using UpnpClient;
+using UpnpClient.Contracts;
 
-namespace GUI.ViewModels
+namespace PanasonicSync.GUI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -27,6 +29,7 @@ namespace GUI.ViewModels
             //_equipmentViewModel = new EquipmentViewModel();
             //_comparerViewModel = new ComparerViewModel();
             SwitchPage(0);
+            IClient client = _standardKernel.Get<IClient>();
         }
 
         public void SwitchPage(int pageId)

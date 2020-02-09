@@ -12,22 +12,19 @@ namespace DataStorage
     {
         public IEnumerable<T> GetAll<T>()
         {
-            throw new NotImplementedException();
+            return Array.Empty<T>();
         }
 
         public void InitDBA(string pathToDb)
         {
-            throw new NotImplementedException();
         }
 
         public void InsertTables(IEnumerable<Type> types)
         {
-            throw new NotImplementedException();
         }
 
         public void SaveObject(ISettings settings)
         {
-            throw new NotImplementedException();
         }
     }
 }

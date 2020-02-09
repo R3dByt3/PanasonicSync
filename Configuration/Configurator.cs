@@ -36,17 +36,17 @@ namespace Configuration
 
         public void Load(IEnumerable<Type> types)
         {
-            _databaseAccess.InitDBA(_appSettings.PathToDb);
-            _databaseAccess.InsertTables(types);
-            IList<ISettings> settings = _databaseAccess.GetAll<ISettings>().ToList();
-            if (settings != null && settings.Count != 0)
-            {
-                Set(settings.First());
-            }
-            else
-            {
-                Set((ISettings)null);
-            }
+            //_databaseAccess.InitDBA(_appSettings.PathToDb);
+            //_databaseAccess.InsertTables(types);
+            //IList<ISettings> settings = _databaseAccess.GetAll<ISettings>().ToList();
+            //if (settings != null && settings.Count != 0)
+            //{
+            //    Set(settings.First());
+            //}
+            //else
+            //{
+            //    Set((ISettings)null);
+            //}
         }
 
         public void Save()
