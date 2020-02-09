@@ -13,11 +13,11 @@ namespace DataStoring.PanasonicControlsResponse
 		public Device Device { get; set; }
 		[XmlAttribute(AttributeName = "xmlns")]
 		public string Xmlns { get; set; }
-		[XmlAttribute(AttributeName = "dlna", Namespace = "http://www.w3.org/2000/xmlns/")]
+		[XmlAttribute(AttributeName = "dlna")]
 		public string Dlna { get; set; }
-		[XmlAttribute(AttributeName = "vli", Namespace = "http://www.w3.org/2000/xmlns/")]
+		[XmlAttribute(AttributeName = "vli")]
 		public string Vli { get; set; }
-		[XmlAttribute(AttributeName = "viera", Namespace = "http://www.w3.org/2000/xmlns/")]
+		[XmlAttribute(AttributeName = "viera")]
 		public string Viera { get; set; }
 
 		public string GetControlsURL()

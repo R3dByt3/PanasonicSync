@@ -1,10 +1,9 @@
-﻿using DataStoring.Contracts.PanasonicResponse;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace DataStoring.PanasonicResponse
 {
     [XmlRoot(ElementName = "channelID", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
-    public class ChannelID : IChannelID
+    public class ChannelID
     {
         [XmlText]
         public string Text { get; set; }

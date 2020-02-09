@@ -1,21 +1,20 @@
-﻿using DataStoring.Contracts.PanasonicResponse;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace DataStoring.PanasonicResponse
 {
     [XmlRoot(ElementName = "item", Namespace = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/")]
-    public class Item : IItem
+    public class Item
     {
         [XmlElement(ElementName = "bbr_content_id", Namespace = "urn:schemas-panasonic-com:pxn")]
         public string Bbr_content_id { get; set; }
         [XmlElement(ElementName = "channelID", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
-        public IChannelID ChannelID { get; set; }
+        public ChannelID ChannelID { get; set; }
         [XmlElement(ElementName = "channelName", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
         public string ChannelName { get; set; }
         [XmlElement(ElementName = "channelNr", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
         public string ChannelNr { get; set; }
         [XmlElement(ElementName = "class", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
-        public IClass Class { get; set; }
+        public Class Class { get; set; }
         [XmlElement(ElementName = "date", Namespace = "http://purl.org/dc/elements/1.1/")]
         public string Date { get; set; }
         [XmlElement(ElementName = "genre", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
@@ -39,7 +38,7 @@ namespace DataStoring.PanasonicResponse
         [XmlElement(ElementName = "recordable", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]
         public string Recordable { get; set; }
         [XmlElement(ElementName = "res", Namespace = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/")]
-        public IRemoteMovie RemoteMovie { get; set; }
+        public RemoteMovie RemoteMovie { get; set; }
         [XmlAttribute(AttributeName = "restricted")]
         public string Restricted { get; set; }
         [XmlElement(ElementName = "storageMedium", Namespace = "urn:schemas-upnp-org:metadata-1-0/upnp/")]

@@ -51,6 +51,10 @@
       <Project>{D5E4C2FC-43C9-452A-8E38-E1F09493DC1E}</Project>
       <Name>DataStoring.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataStoring\DataStoring.csproj">
+      <Project>{B7E74531-2E05-4D26-A3F0-D3AC55DB33C8}</Project>
+      <Name>DataStoring</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

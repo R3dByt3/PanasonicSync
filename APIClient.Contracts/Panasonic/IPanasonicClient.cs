@@ -1,5 +1,5 @@
-﻿using DataStoring.Contracts.PanasonicResponse;
-using DataStoring.Contracts.UpnpResponse;
+﻿using DataStoring.Contracts.UpnpResponse;
+using DataStoring.PanasonicResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +11,6 @@ namespace APIClient.Contracts.Panasonic
     public interface IPanasonicClient
     {
         void LoadControlsUri(IPanasonicDevice device);
-        IEnumerable<IItem> RequestMovies();
+        IEnumerable<Item> RequestMovies();
     }
 }

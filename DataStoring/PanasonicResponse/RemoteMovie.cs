@@ -1,12 +1,11 @@
-﻿using DataStoring.Contracts.PanasonicResponse;
-using System;
+﻿using System;
 using System.Xml.Serialization;
 
 namespace DataStoring.PanasonicResponse
 {
 
 	[XmlRoot(ElementName = "res", Namespace = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/")]
-	public class RemoteMovie : IRemoteMovie
+	public class RemoteMovie
 	{
 		[XmlAttribute(AttributeName = "ChapterList", Namespace = "urn:schemas-panasonic-com:pxn")]
 		public string ChapterList { get; set; }
