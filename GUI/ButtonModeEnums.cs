@@ -1,12 +1,9 @@
 ﻿namespace PanasonicSync.GUI
 {
-    public class ButtonModeEnums
+    public enum ButtonMode
     {
-        public enum ButtonMode
-        {
-            Add,
-            Edit,
-            Delete
-        }
+        Add,
+        Edit,
+        Delete
     }
 }

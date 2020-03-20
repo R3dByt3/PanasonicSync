@@ -1,32 +1,36 @@
 ﻿using Configuration.Contracts;
-using DataStorage.Contracts;
+using Configuration.Properties;
 using DataStoring.Contracts;
+using NetStandard.IO.Compression;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 
 namespace Configuration
 {
     public class Configurator : IConfigurator
     {
         private readonly Dictionary<object, object> _applicationSettings;
-        private readonly IDatabaseAccess _databaseAccess;
-        private readonly Properties.Settings _appSettings;
+        private readonly Settings _appSettings;
+        private readonly ICompressor _compressor;
 
-        public Configurator(IDatabaseAccess databaseAccess)
+        public Configurator(ICompressor compressor)
         {
-            _appSettings = Properties.Settings.Default;
+            _appSettings = Settings.Default;
             _appSettings.PropertyChanged += SaveSettings;
-            if (string.IsNullOrWhiteSpace(_appSettings.PathToDb))
+            if (string.IsNullOrWhiteSpace(_appSettings.PathToConfigFile))
             {
-                _appSettings.PathToDb = Path.Combine(
+                _appSettings.PathToConfigFile = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    _appSettings.AppName, _appSettings.DbName);
+                    _appSettings.AppName, _appSettings.ConfigFileName);
             }
-            _databaseAccess = databaseAccess;
             _applicationSettings = new Dictionary<object, object>();
+
+            _compressor = compressor;
+
+            if (File.Exists(_appSettings.PathToConfigFile))
+                Set(compressor.DeCompress(File.ReadAllBytes(_appSettings.PathToConfigFile)));
         }
 
         private void SaveSettings(object sender, PropertyChangedEventArgs e)
@@ -34,24 +38,9 @@ namespace Configuration
             _appSettings.Save();
         }
 
-        public void Load(IEnumerable<Type> types)
-        {
-            //_databaseAccess.InitDBA(_appSettings.PathToDb);
-            //_databaseAccess.InsertTables(types);
-            //IList<ISettings> settings = _databaseAccess.GetAll<ISettings>().ToList();
-            //if (settings != null && settings.Count != 0)
-            //{
-            //    Set(settings.First());
-            //}
-            //else
-            //{
-            //    Set((ISettings)null);
-            //}
-        }
-
         public void Save()
         {
-            _databaseAccess.SaveObject(Get<ISettings>());
+            File.WriteAllBytes(_appSettings.PathToConfigFile, _compressor.Compress(Get<ISettings>()));
         }
 
         public T Get<T>() where T : class

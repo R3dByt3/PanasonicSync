@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -33,14 +32,12 @@ namespace APIClient.Panasonic
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>\r\n";
 
-        private readonly IKernel _kernel;
         private readonly ILogger _logger;
 
         private Uri _controlsUri;
 
-        public PanasonicClient(IKernel kernel, ILoggerFactory loggerFactory)
+        public PanasonicClient(ILoggerFactory loggerFactory)
         {
-            _kernel = kernel;
             _logger = loggerFactory.CreateFileLogger();
         }
 

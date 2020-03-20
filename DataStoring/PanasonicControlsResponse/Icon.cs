@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-    [XmlRoot(ElementName = "icon", Namespace = "urn:schemas-upnp-org:device-1-0")]
+	[XmlRoot(ElementName = "icon", Namespace = "urn:schemas-upnp-org:device-1-0")]
 	public class Icon
 	{
 		[XmlElement(ElementName = "mimetype", Namespace = "urn:schemas-upnp-org:device-1-0")]

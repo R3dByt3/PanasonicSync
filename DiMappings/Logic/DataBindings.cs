@@ -1,14 +1,10 @@
 ﻿using DataStoring;
 using DataStoring.Contracts;
+using DataStoring.Contracts.MovieModels;
 using DataStoring.Contracts.UpnpResponse;
-using DataStoring.PanasonicResponse;
+using DataStoring.MovieModels;
 using DataStoring.UpnpResponse;
 using Ninject.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiMappings.Logic
 {
@@ -19,6 +15,8 @@ namespace DiMappings.Logic
             Bind<ISettings>().To<Settings>();
 
             Bind<IPanasonicDevice>().To<PanasonicDevice>();
+
+            Bind<IMovieFile>().To<MovieFile>();
         }
     }
 }

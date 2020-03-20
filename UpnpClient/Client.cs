@@ -4,11 +4,9 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using UpnpClient.Contracts;
 
 namespace UpnpClient
@@ -60,11 +58,11 @@ namespace UpnpClient
                 udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 2);
                 udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastLoopback, true);
 
-                _logger.Debug("UDP-Socket setup done...\r\n");
+                _logger.Debug("UDP-Socket setup done...");
 
                 udpSocket.SendTo(Encoding.UTF8.GetBytes(SearchString), SocketFlags.None, _multicastEndPoint);
 
-                _logger.Debug("M-Search sent...\r\n");
+                _logger.Debug("M-Search sent...");
 
                 byte[] receiveBuffer = new byte[64000];
 
@@ -83,7 +81,7 @@ namespace UpnpClient
                             var device = _kernel.Get<IPanasonicDevice>();
                             device.FillFromString(Encoding.UTF8.GetString(receiveBuffer, 0, receivedBytes));
 
-                            _logger.Debug($"Found device: {device.ToString()}");
+                            _logger.Debug($"Found device: {device}");
 
                             yield return device;
                         }

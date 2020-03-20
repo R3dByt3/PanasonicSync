@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MovieModels\MovieFile.cs" />
     <Compile Include="PanasonicControlsResponse\Device.cs" />
     <Compile Include="PanasonicControlsResponse\Icon.cs" />
     <Compile Include="PanasonicControlsResponse\IconList.cs" />
@@ -88,8 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="PanasonicResponse.cd" />
-    <None Include="PanasonicRequest.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

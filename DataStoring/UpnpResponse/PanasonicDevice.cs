@@ -1,16 +1,13 @@
 ﻿using DataStoring.Contracts.UpnpResponse;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DataStoring.UpnpResponse
 {
     public class PanasonicDevice : IPanasonicDevice
     {
+        public bool IsChecked { get; set; }
         public string Location { get; set; }
         public string ServiceType { get; set; }
         public DateTime LastSeen { get; set; }

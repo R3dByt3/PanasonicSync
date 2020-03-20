@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PanasonicSync.GUI.Styles">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="DefaultLabelStyles.xaml"/>
+        <ResourceDictionary Source="DefaultProgessbarStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

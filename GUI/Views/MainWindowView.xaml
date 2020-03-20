@@ -1,21 +1,24 @@
 ﻿<Controls:MetroWindow x:Class="PanasonicSync.GUI.Views.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PanasonicSync.GUI.Views"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:extended="clr-namespace:ExtendedControls;assembly=ExtendedControls"
+        Dialog:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
         Title="Template" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <!--<RowDefinition Height="Auto"/>-->
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <!--<TabControl Grid.Row="0" FlowDirection="LeftToRight" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TabItem Header="" IsSelected="True" cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action SwitchPage(0)]">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
@@ -25,7 +28,8 @@
             <TabItem Header="" cal:Message.Attach="[Event PreviewMouseLeftButtonDown] = [Action SwitchPage(2)]">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-        </TabControl>
-        <UserControl Grid.Row="1" cal:View.Model="{Binding CurrentModel}"/>
+        </TabControl>-->
+        <UserControl Grid.Row="0" cal:View.Model="{Binding CurrentModel}"/>
+        <UserControl Grid.Row="1" cal:View.Model="{Binding ProgressModel}"/>
     </Grid>
 </Controls:MetroWindow>
