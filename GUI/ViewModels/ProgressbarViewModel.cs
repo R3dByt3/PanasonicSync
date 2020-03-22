@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class ProgressbarViewModel : PropertyChangedBase
+    public class ProgressbarViewModel : ViewModelBase
     {
         public Stack<Tuple<string, bool>> Steps;
 
@@ -72,13 +72,13 @@ namespace PanasonicSync.GUI.ViewModels
         {
             IsIndeterminate = false;
             CurrentStep = string.Empty;
+            Maximum = 1;
+            Value = 1;
         }
 
         public void Reset()
         {
             End();
-            Maximum = 1;
-            Value = 0;
 
             Steps.Clear();
         }

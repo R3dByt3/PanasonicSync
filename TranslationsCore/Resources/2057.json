@@ -1,7 +1,10 @@
 ﻿{
   "Close": "Close",
+  "CompareMovies": "Comparing movies...",
   "Error": "Error",
+  "LoadingMovies": "Loading movie information...",
   "NoDevicesFoundRetry": "No devices could be found...\r\nRetry or Close?",
   "SearchForDevices": "Searching for devices...",
-  "Retry": "Retry"
+  "Retry": "Retry",
+  "Select": "Select"
 }

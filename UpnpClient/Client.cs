@@ -1,4 +1,6 @@
-﻿using DataStoring.Contracts.UpnpResponse;
+﻿using Configuration.Contracts;
+using DataStoring.Contracts;
+using DataStoring.Contracts.UpnpResponse;
 using NetStandard.Logger;
 using Ninject;
 using System;
@@ -7,6 +9,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using UpnpClient.Contracts;
 
 namespace UpnpClient
@@ -17,16 +20,18 @@ namespace UpnpClient
 
         private readonly ILogger _logger;
         private readonly IKernel _kernel;
+        private readonly ISettings _settings;
 
         private readonly IPEndPoint _localEndPoint;
         private readonly IPEndPoint _multicastEndPoint;
 
         public string LocalIP { get; private set; }
 
-        public Client(IKernel kernel, ILoggerFactory loggerFactory)
+        public Client(IKernel kernel, ILoggerFactory loggerFactory, IConfigurator configurator)
         {
             _kernel = kernel;
             _logger = loggerFactory.CreateFileLogger();
+            _settings = configurator.Get<ISettings>();
 
             string ipaddress = GetLocalIPAddress();
             _logger.Debug($"Machine IP = {ipaddress}");
@@ -70,7 +75,7 @@ namespace UpnpClient
 
                 Stopwatch s = new Stopwatch();
                 s.Start();
-                while (s.Elapsed < TimeSpan.FromSeconds(10))
+                while (s.Elapsed < TimeSpan.FromSeconds(_settings.DeviceDiscoveringTime))
                 {
                     if (udpSocket.Available > 0)
                     {
@@ -86,6 +91,8 @@ namespace UpnpClient
                             yield return device;
                         }
                     }
+                    else
+                        Thread.Sleep(100);
                 }
                 s.Stop();
             }

@@ -25,7 +25,8 @@ namespace DiMappings.Logic
 
             Bind<IFileManager>().To<FileManager>();
             Bind<ICompressor>().To<Compressor>();
-            Bind<IConfigurator>().To<Configurator>();
+            Bind<IConfigurator>().To<Configurator>()
+                .InSingletonScope();
             Bind<IDatabaseAccess>().To<DatabaseAccess>();
             Bind<IClient>().To<Client>();
             Bind<IPanasonicClient>().To<PanasonicClient>();

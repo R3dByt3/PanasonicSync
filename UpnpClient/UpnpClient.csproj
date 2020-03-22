@@ -56,6 +56,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Configuration.Contracts\Configuration.Contracts.csproj">
+      <Project>{ACDEC481-613F-457E-B707-00AF9F89BFEF}</Project>
+      <Name>Configuration.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataStoring.Contracts\DataStoring.Contracts.csproj">
       <Project>{D5E4C2FC-43C9-452A-8E38-E1F09493DC1E}</Project>
       <Name>DataStoring.Contracts</Name>

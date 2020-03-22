@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Configuration.Contracts;
+using DataStoring.Contracts;
 using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.ViewModels;
@@ -16,6 +18,18 @@ namespace PanasonicSync.GUI
         {
             Initialize();
             var factory = Controller.Kernel.Get<ILoggerFactory>();
+            var configurator = Controller.Kernel.Get<IConfigurator>();
+            var settings = configurator.Get<ISettings>();
+
+            if (settings == null)
+            {
+                settings = Controller.Kernel.Get<ISettings>();
+                settings.DeviceDiscoveringTime = 1;
+                settings.LocalMoviesPath = @"N:\Movies\ALLE_RECS";
+                configurator.Set(settings);
+                configurator.Save();
+            }
+
             _logger = factory.CreateFileLogger();
         }
 

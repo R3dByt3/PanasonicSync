@@ -10,6 +10,7 @@
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:extended="clr-namespace:ExtendedControls;assembly=ExtendedControls"
         Dialog:DialogParticipation.Register="{Binding}"
+        cal:Message.Attach="[Event Loaded]=[Action Loaded()]"
         mc:Ignorable="d"
         Title="Template" Height="450" Width="800">
     <Grid>

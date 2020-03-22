@@ -13,22 +13,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ItemsControl Margin="15"
-                      ItemsSource="{Binding Devices}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <extended:RadioButtonExtended IsCheckedReal="{Binding IsChecked}"
-                                                      GroupName="Selection"/>
-                        <TextBlock Text="{Binding Location}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      Margin="15">
+            <ItemsControl ItemsSource="{Binding Devices}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <extended:RadioButtonExtended IsCheckedReal="{Binding IsChecked}"
+                                                          GroupName="Selection"/>
+                            <TextBlock Text="{Binding Location}"
                                    Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button x:Name="Select"
+                Margin="15"
+                Grid.Row="1"
+                Content="{Binding TranslationProvider.Select}"/>
     </Grid>
 </UserControl>

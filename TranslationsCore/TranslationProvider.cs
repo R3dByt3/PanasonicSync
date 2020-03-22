@@ -9,11 +9,14 @@ namespace TranslationsCore
 {
     public class TranslationProvider
     {
+        public string Close { get; set; }
+        public string CompareMovies { get; set; }
         public string Error { get; set; }
+        public string LoadingMovies { get; set; }
         public string NoDevicesFoundRetry { get; set; }
         public string SearchForDevices { get; set; }
         public string Retry { get; set; }
-        public string Close { get; set; }
+        public string Select { get; set; }
 
         public static TranslationProvider LoadCulture(int langId)
         {
@@ -35,7 +38,7 @@ namespace TranslationsCore
             resourceName = $"TranslationsCore.Resources.{langId}.json";
 
             Dictionary<string, string> translations = new Dictionary<string, string>();
-            Dictionary<string, string> translationsFallback = new Dictionary<string, string>();
+            Dictionary<string, string> translationsFallback;
 
             translationsFallback = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
 

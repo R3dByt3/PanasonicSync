@@ -10,5 +10,9 @@ namespace DataStoring.MovieModels
         public TimeSpan Duration { get; set; }
         public string FilePath { get; set; }
         public Uri FileLink { get; set; }
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

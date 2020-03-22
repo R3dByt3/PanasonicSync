@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MovieModels\Conflict.cs" />
     <Compile Include="MovieModels\MovieFile.cs" />
     <Compile Include="PanasonicControlsResponse\Device.cs" />
     <Compile Include="PanasonicControlsResponse\Icon.cs" />

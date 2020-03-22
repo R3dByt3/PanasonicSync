@@ -2,7 +2,7 @@
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class ConfigurationViewModel : PropertyChangedBase
+    public class ConfigurationViewModel : ViewModelBase
     {
     }
 }

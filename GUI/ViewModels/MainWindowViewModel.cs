@@ -4,6 +4,8 @@ using DataStoring.Contracts.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
+using PanasonicSync.GUI.Messaging.Abstract;
+using PanasonicSync.GUI.Messaging.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +16,17 @@ using UpnpClient.Contracts;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class MainWindowViewModel : PropertyChangedBase
+    public class MainWindowViewModel : ViewModelBase, IHandleMessage
     {
-        public readonly TranslationProvider TranslationProvider;
+        private TranslationProvider _translationProvider;
 
         private readonly ILogger _logger;
         private readonly IKernel _standardKernel;
-        private readonly IDialogCoordinator _dialogCoordinator;
 
-        private object _currentModel;
+        private ViewModelBase _currentModel;
         private ProgressbarViewModel _progressModel;
 
-        public object CurrentModel
+        public ViewModelBase CurrentModel
         {
             get => _currentModel;
             set 
@@ -45,30 +46,45 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
+        public TranslationProvider TranslationProvider
+        {
+            get => _translationProvider;
+            set
+            {
+                _translationProvider = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public MainWindowViewModel()
         {
             _standardKernel = Controller.Kernel;
             TranslationProvider = Controller.TranslationProvider;
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
-            _dialogCoordinator = DialogCoordinator.Instance;
-
-            Thread thread = new Thread(() => {
-                var devices = StartDeviceDetectionLoop();
-
-                CurrentModel = new DeviceSelectionViewModel(devices);
-            });
-            thread.Start();
         }
 
-        private List<IPanasonicDevice> StartDeviceDetectionLoop()
+        public async void Loaded()
         {
-            List<IPanasonicDevice> devices = SearchDevices();
+            await Task.Run(async () =>
+            {
+                var devices = await StartDeviceDetectionLoop();
+
+                if (devices.Count > 1)
+                    CurrentModel = new DeviceSelectionViewModel(devices);
+                else
+                    CurrentModel = new SyncSelectionViewModel(devices.First());
+            });
+        }
+
+        private async Task<List<IPanasonicDevice>> StartDeviceDetectionLoop()
+        {
+            var devices = SearchDevices();
 
             while (!devices.Any()) //ToDo: Test
             {
                 devices = SearchDevices();
-                var result = _dialogCoordinator.ShowMessageAsync(
+                var result = await _dialogCoordinator.ShowMessageAsync(
                     this, 
                     TranslationProvider.Error, 
                     TranslationProvider.NoDevicesFoundRetry, 
@@ -77,9 +93,9 @@ namespace PanasonicSync.GUI.ViewModels
                     {
                         AffirmativeButtonText = TranslationProvider.Retry,
                         NegativeButtonText = TranslationProvider.Close
-                    }).Result;
+                    });
 
-                if (result == MessageDialogResult.Canceled)
+                if (result == MessageDialogResult.Negative)
                 {
                     Environment.Exit(0);
                 }
@@ -101,6 +117,18 @@ namespace PanasonicSync.GUI.ViewModels
             ProgressModel.End();
 
             return devices;
+        }
+
+        public void Handle(IMessage message)
+        {
+            if (message is ProgressbarEndMessage)
+                ProgressModel.End();
+            else if (message is ProgressbarNextMessage)
+                ProgressModel.Next();
+            else if (message is SetMainWindowControlMessage setControlMessage)
+                CurrentModel = setControlMessage.ViewModel;
+            else if (message is SetProgressControlMessage setProgessMessage)
+                ProgressModel = setProgessMessage.ViewModel;
         }
     }
 }

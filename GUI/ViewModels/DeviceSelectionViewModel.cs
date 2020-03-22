@@ -3,22 +3,26 @@ using DataStoring.Contracts.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
+using PanasonicSync.GUI.Messaging.Abstract;
+using PanasonicSync.GUI.Messaging.Impl;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using TranslationsCore;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class DeviceSelectionViewModel : PropertyChangedBase
+    public class DeviceSelectionViewModel : ViewModelBase
     {
-        public readonly TranslationProvider TranslationProvider;
+        private TranslationProvider _translationProvider;
 
         private readonly ILogger _logger;
         private readonly IKernel _standardKernel;
-        private readonly IDialogCoordinator _dialogCoordinator;
 
-        private List<IPanasonicDevice> _devices;
+        private IObservableCollection<IPanasonicDevice> _devices;
 
-        public List<IPanasonicDevice> Devices 
+        public IObservableCollection<IPanasonicDevice> Devices 
         { 
             get => _devices; 
             set
@@ -28,14 +32,29 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
+        public TranslationProvider TranslationProvider 
+        { 
+            get => _translationProvider;
+            set
+            {
+                _translationProvider = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public DeviceSelectionViewModel(List<IPanasonicDevice> devices)
         {
-            Devices = devices;
+            devices[0].IsChecked = true;
+            Devices = new BindableCollection<IPanasonicDevice>(devices);
             _standardKernel = Controller.Kernel;
             TranslationProvider = Controller.TranslationProvider;
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
-            _dialogCoordinator = DialogCoordinator.Instance;
+        }
+
+        public void Select()
+        {
+            SendMessage(new SetMainWindowControlMessage(new SyncSelectionViewModel(Devices.First(x => x.IsChecked))));
         }
     }
 }
