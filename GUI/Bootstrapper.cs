@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Configuration.Contracts;
 using DataStoring.Contracts;
+using FFmpegStandardWrapper.Abstract.Core;
 using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.ViewModels;
@@ -20,6 +21,8 @@ namespace PanasonicSync.GUI
             var factory = Controller.Kernel.Get<ILoggerFactory>();
             var configurator = Controller.Kernel.Get<IConfigurator>();
             var settings = configurator.Get<ISettings>();
+
+            var engine = Controller.Kernel.Get<IEngine>();
 
             if (settings == null)
             {

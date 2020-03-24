@@ -4,6 +4,8 @@ using Configuration;
 using Configuration.Contracts;
 using DataStorage;
 using DataStorage.Contracts;
+using FFmpegStandardWrapper.Abstract.Core;
+using FFmpegStandardWrapper.Core;
 using NetStandard.IO.Compression;
 using NetStandard.IO.Files;
 using NetStandard.Logger;
@@ -30,6 +32,10 @@ namespace DiMappings.Logic
             Bind<IDatabaseAccess>().To<DatabaseAccess>();
             Bind<IClient>().To<Client>();
             Bind<IPanasonicClient>().To<PanasonicClient>();
+
+            Bind<IEngine>().To<Engine>();
+            Bind<IFFmpeg>().To<FFmpeg>();
+            Bind<IFFprobe>().To<FFprobe>();
         }
     }
 }

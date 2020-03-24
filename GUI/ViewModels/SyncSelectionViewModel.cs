@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using DataStoring.Contracts;
 using DataStoring.Contracts.MovieModels;
 using DataStoring.Contracts.UpnpResponse;
+using FFmpegStandardWrapper.Abstract.Core;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
@@ -72,13 +73,13 @@ namespace PanasonicSync.GUI.ViewModels
             })));
             SendMessage(new ProgressbarNextMessage());
 
-            var remoteMovies = Task.Run(() => panasonicClient.RequestMovies().ToList());
-            var localMovies = Task.Run(() => LoadLocalFiles().ToList());
+            var remoteItems = Task.Run(() => panasonicClient.RequestMovies().ToList());
+            var localItems = Task.Run(() => LoadLocalFiles().ToList());
 
-            var remotes = await remoteMovies;
+            var remoteMovies = await remoteItems;
             List<IMovieFile> remoteFileList = new List<IMovieFile>();
 
-            foreach (var file in remotes)
+            foreach (var file in remoteMovies)
             {
                 var remoteFile = _standardKernel.Get<IMovieFile>();
                 remoteFile.Title = RemoveInvalidChars(file.Title);
@@ -88,19 +89,19 @@ namespace PanasonicSync.GUI.ViewModels
                 remoteFileList.Add(remoteFile);
             }
 
-            var localFileList = await localMovies;
+            var localMovies = await localItems;
 
             SendMessage(new ProgressbarNextMessage());
 
             var equalityComparer = new MovieEqualityComparer();
             var similarityComparer = new MovieSimilarityComparer();
-            var missingMovies = remoteFileList.Where(x => !localFileList.Contains(x, equalityComparer)).ToList();
+            var missingMovies = remoteFileList.Where(x => !localMovies.Contains(x, equalityComparer)).ToList();
 
             HashSet<IConflict> conflicts = new HashSet<IConflict>();
 
             foreach(var movie in missingMovies)
             {
-                var conflicted = localFileList.Where(x => similarityComparer.Equals(x, movie)).ToList();
+                var conflicted = localMovies.Where(x => similarityComparer.Equals(x, movie)).ToList();
                 if (!conflicted.Any())
                     continue;
 
@@ -111,8 +112,17 @@ namespace PanasonicSync.GUI.ViewModels
                 conflicts.Add(conflict);
             }
 
-            var possibleDuplicates = conflicts.Select(x => x.MovieFile).Distinct();
-            missingMovies = missingMovies.Where(x => !possibleDuplicates.Contains(x, equalityComparer)).ToList();
+            var duplicates = conflicts.Select(x => x.MovieFile).Distinct();
+            missingMovies = missingMovies.Where(x => !duplicates.Contains(x, equalityComparer)).ToList();
+
+            var localDuplicates = conflicts.SelectMany(x => x.Conflicts).Distinct().ToList();
+
+            var probe = _standardKernel.Get<IFFprobe>();
+
+            Parallel.ForEach(localDuplicates, local =>
+            {
+                local.Duration = probe.GetVideoLenght(local.FilePath);
+            });
 
             SendMessage(new ProgressbarEndMessage());
         }

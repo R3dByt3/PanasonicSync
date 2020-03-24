@@ -33,6 +33,10 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FFmpegStandardWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FFmpegStandardWrapper\FFmpegStandardWrapper\bin\Release\netstandard2.0\FFmpegStandardWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="NetStandard.IO">
       <HintPath>..\..\NetStandard.IO\NetStandard.IO\bin\Release\netstandard2.0\NetStandard.IO.dll</HintPath>
     </Reference>

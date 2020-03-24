@@ -59,6 +59,10 @@
     <Reference Include="ExtendedControls">
       <HintPath>..\..\ExtendedControls\ExtendedControls\bin\Release\ExtendedControls.dll</HintPath>
     </Reference>
+    <Reference Include="FFmpegStandardWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FFmpegStandardWrapper\FFmpegStandardWrapper\bin\Release\netstandard2.0\FFmpegStandardWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -69,7 +73,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Components\NetStandard.IO\NetStandard.IO.dll</HintPath>
     </Reference>
-    <Reference Include="NetStandard.Logger, Version=1.0.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="NetStandard.Logger, Version=1.0.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\NetStandard.Logger\NetStandard.Logger\bin\Release\netstandard2.0\NetStandard.Logger.dll</HintPath>
     </Reference>
