@@ -6,6 +6,7 @@ using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -21,7 +22,6 @@ namespace PanasonicSync.GUI
             var factory = Controller.Kernel.Get<ILoggerFactory>();
             var configurator = Controller.Kernel.Get<IConfigurator>();
             var settings = configurator.Get<ISettings>();
-
             var engine = Controller.Kernel.Get<IEngine>();
 
             if (settings == null)
@@ -29,6 +29,7 @@ namespace PanasonicSync.GUI
                 settings = Controller.Kernel.Get<ISettings>();
                 settings.DeviceDiscoveringTime = 1;
                 settings.LocalMoviesPath = @"N:\Movies\ALLE_RECS";
+                settings.BlackList = new List<string> { "Club der roten Bänder" };
                 configurator.Set(settings);
                 configurator.Save();
             }

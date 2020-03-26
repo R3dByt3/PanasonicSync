@@ -21,13 +21,34 @@ namespace PanasonicSync.GUI.ViewModels
 {
     public class SyncSelectionViewModel : ViewModelBase
     {
-        private TranslationProvider _translationProvider;
         private IPanasonicDevice _panasonicDevice;
+        private Stack<IConflict> _conflictsToResolve;
 
         private readonly ILogger _logger;
-        private readonly IKernel _standardKernel;
-        private readonly IDialogCoordinator _dialogCoordinator;
         private readonly ISettings _settings;
+        private IMovieFile _movie;
+        private IList<MovieViewModel> _conflicts;
+        private IList<IMovieFile> _missingMovies;
+
+        public IMovieFile Movie
+        {
+            get => _movie;
+            set
+            {
+                _movie = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public IList<MovieViewModel> Conflicts
+        {
+            get => _conflicts;
+            set
+            {
+                _conflicts = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public IPanasonicDevice PanasonicDevice 
         { 
@@ -39,25 +60,13 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        public TranslationProvider TranslationProvider
-        {
-            get => _translationProvider;
-            set
-            {
-                _translationProvider = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public SyncSelectionViewModel(IPanasonicDevice panasonicDevice)
         {
             PanasonicDevice = panasonicDevice;
-            _standardKernel = Controller.Kernel;
             TranslationProvider = Controller.TranslationProvider;
             _settings = _standardKernel.Get<ISettings>();
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
-            _dialogCoordinator = DialogCoordinator.Instance;
 
             Load(panasonicDevice);
         }
@@ -93,13 +102,25 @@ namespace PanasonicSync.GUI.ViewModels
 
             SendMessage(new ProgressbarNextMessage());
 
+            Compare(remoteFileList, localMovies);
+        }
+
+        private void Compare(List<IMovieFile> remoteFileList, List<IMovieFile> localMovies)
+        {
             var equalityComparer = new MovieEqualityComparer();
             var similarityComparer = new MovieSimilarityComparer();
-            var missingMovies = remoteFileList.Where(x => !localMovies.Contains(x, equalityComparer)).ToList();
+            _missingMovies = remoteFileList.Where(x => !localMovies.Contains(x, equalityComparer)).ToList();
 
-            HashSet<IConflict> conflicts = new HashSet<IConflict>();
+            ISettings settings = _standardKernel.Get<ISettings>();
 
-            foreach(var movie in missingMovies)
+            foreach (var blacklisted in settings.BlackList)
+            {
+                _missingMovies = _missingMovies.Where(x => !x.Title.Contains(blacklisted)).ToList();
+            }
+
+            _conflictsToResolve = new Stack<IConflict>();
+
+            foreach (var movie in _missingMovies)
             {
                 var conflicted = localMovies.Where(x => similarityComparer.Equals(x, movie)).ToList();
                 if (!conflicted.Any())
@@ -109,13 +130,13 @@ namespace PanasonicSync.GUI.ViewModels
                 conflict.MovieFile = movie;
                 conflict.Conflicts = conflicted;
 
-                conflicts.Add(conflict);
+                _conflictsToResolve.Push(conflict);
             }
 
-            var duplicates = conflicts.Select(x => x.MovieFile).Distinct();
-            missingMovies = missingMovies.Where(x => !duplicates.Contains(x, equalityComparer)).ToList();
+            var duplicates = _conflictsToResolve.Select(x => x.MovieFile).Distinct();
+            _missingMovies = _missingMovies.Where(x => !duplicates.Contains(x, equalityComparer)).ToList();
 
-            var localDuplicates = conflicts.SelectMany(x => x.Conflicts).Distinct().ToList();
+            var localDuplicates = _conflictsToResolve.SelectMany(x => x.Conflicts).Distinct().ToList();
 
             var probe = _standardKernel.Get<IFFprobe>();
 
@@ -125,6 +146,22 @@ namespace PanasonicSync.GUI.ViewModels
             });
 
             SendMessage(new ProgressbarEndMessage());
+
+            SetNextConflict();
+        }
+
+        private void SetNextConflict()
+        {
+            if (_conflictsToResolve == null || !_conflictsToResolve.Any())
+            {
+                SendMessage(new SetMainWindowControlMessage(new SyncViewModel(_missingMovies)));
+                return;
+            }
+
+            var nextConflict = _conflictsToResolve.Pop();
+
+            Movie = nextConflict.MovieFile;
+            Conflicts = nextConflict.Conflicts.Select(x => new MovieViewModel(x, true)).ToList();
         }
 
         private IEnumerable<IMovieFile> LoadLocalFiles()
@@ -145,6 +182,28 @@ namespace PanasonicSync.GUI.ViewModels
         private string RemoveInvalidChars(string filename)
         {
             return string.Concat(filename.Split(Path.GetInvalidFileNameChars().Concat(Path.GetInvalidPathChars()).ToArray()));
+        }
+
+        public void Skip()
+        {
+            SetNextConflict();
+        }
+
+        public void Download()
+        {
+            GetNextFreeTitle();
+            _missingMovies.Add(Movie);
+        }
+
+        private void GetNextFreeTitle()
+        {
+            var title = Movie.Title;
+            int counter = 0;
+            while (_missingMovies.Any(x => x.Title == Movie.Title))
+            {
+                title = $"{title}_{counter}";
+            }
+            Movie.Title = title;
         }
     }
 }

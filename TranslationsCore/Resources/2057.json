@@ -1,10 +1,18 @@
 ﻿{
   "Close": "Close",
   "CompareMovies": "Comparing movies...",
+  "Download": "Download",
   "Error": "Error",
   "LoadingMovies": "Loading movie information...",
+  "LocalMovies": "Local movie(s):",
+  "MovieDuration": "Movie duration:",
+  "MovieName": "Movie name:",
+  "MovieSize": "Movie size:",
   "NoDevicesFoundRetry": "No devices could be found...\r\nRetry or Close?",
   "SearchForDevices": "Searching for devices...",
   "Retry": "Retry",
-  "Select": "Select"
+  "RemoteMovie": "Remote movie:",
+  "Select": "Select",
+  "Skip": "Skip",
+  "Start": "Start"
 }

@@ -9,5 +9,7 @@ namespace DataStoring.Contracts.MovieModels
         string FilePath { get; set; }
         ulong Size { get; set; }
         string Title { get; set; }
+        string SizeHr { get; }
+        bool IsSelected { get; set; }
     }
 }

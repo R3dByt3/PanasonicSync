@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PanasonicSync.GUI.Views"
+             xmlns:models="clr-namespace:PanasonicSync.GUI.ViewModels"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:cal="http://www.caliburnproject.org"
@@ -12,22 +13,51 @@
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Styles/DefaultStyles.xaml"/>
+    </UserControl.Resources>
+    
     <Grid>
-        <ItemsControl>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <extended:RadioButtonExtended IsCheckedReal="{Binding IsChecked}"
-                                                          GroupName="Selection"/>
-                        <TextBlock Text="{Binding Location}"
-                                   Grid.Column="1"/>
+        <Border Style="{DynamicResource DefaultThickBorderStyle}"
+                Margin="15">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="{Binding TranslationProvider.RemoteMovie}"/>
+                <Label Grid.Column="1" Content="{Binding TranslationProvider.LocalMovies}"/>
+                <local:MovieView Grid.Row="1"/>
+                <Border Grid.Row="1"
+                        Style="{DynamicResource DefaultSmallBorderStyle}"
+                        Grid.Column="1">
+                    <Grid Margin="15">
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Conflicts}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:MovieView/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                </Border>
+                <Button Grid.Row="2" 
+                        Grid.Column="1"
+                        x:Name="Skip" 
+                        Content="{Binding TranslationProvider.Skip}"
+                        Style="{DynamicResource DefaultButtonStyle}"/>
+                <Button Grid.Row="2"
+                        x:Name="Download" 
+                        Content="{Binding TranslationProvider.Download}"
+                        Style="{DynamicResource DefaultButtonStyle}"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

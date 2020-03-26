@@ -16,12 +16,9 @@ using UpnpClient.Contracts;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IHandleMessage
+    public class MainWindowViewModel : ViewModelBase, IHandleMessage, IScreen
     {
-        private TranslationProvider _translationProvider;
-
         private readonly ILogger _logger;
-        private readonly IKernel _standardKernel;
 
         private ViewModelBase _currentModel;
         private ProgressbarViewModel _progressModel;
@@ -46,27 +43,24 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        public TranslationProvider TranslationProvider
-        {
-            get => _translationProvider;
-            set
-            {
-                _translationProvider = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public MainWindowViewModel()
         {
-            _standardKernel = Controller.Kernel;
             TranslationProvider = Controller.TranslationProvider;
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
+
+            ProgressModel = new ProgressbarViewModel(new[]
+            {
+                new Tuple<string, bool>(TranslationProvider.SearchForDevices, true),
+            });
+            ProgressModel.Next();
         }
 
-        public async void Loaded()
+        public void Loaded()
         {
-            await Task.Run(async () =>
+            //_manager.ShowDialog(new LoadingScreenViewModel(_standardKernel), this, new Dictionary<string, object> { { "" } });
+
+            Task.Run(async () =>
             {
                 var devices = await StartDeviceDetectionLoop();
 
@@ -106,12 +100,6 @@ namespace PanasonicSync.GUI.ViewModels
 
         private List<IPanasonicDevice> SearchDevices()
         {
-            ProgressModel = new ProgressbarViewModel(new[]
-            {
-                new Tuple<string, bool>(TranslationProvider.SearchForDevices, true),
-            });
-
-            ProgressModel.Next();
             IClient client = _standardKernel.Get<IClient>();
             var devices = client.SearchUpnpDevices().ToList();
             ProgressModel.End();

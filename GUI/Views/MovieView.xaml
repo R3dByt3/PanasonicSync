@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="PanasonicSync.GUI.Views.MovieView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PanasonicSync.GUI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Styles/DefaultStyles.xaml"/>
+    </UserControl.Resources>
+
+    <Border Style="{DynamicResource DefaultSmallBorderStyle}">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" 
+                   Content="{Binding TranslationProvider.MovieName}"/>
+            <TextBox Grid.Row="1"
+                     Text="{Binding Movie.Title}"
+                     IsReadOnly="{Binding ReadOnly}"/>
+            <Label Grid.Row="2" 
+                   Content="{Binding TranslationProvider.MovieDuration}"/>
+            <Label Grid.Row="3"
+                   Content="{Binding Movie.Duration}"/>
+            <Label Grid.Row="4" 
+                   Content="{Binding TranslationProvider.MovieSize}"/>
+            <Label Grid.Row="5"
+                   Content="{Binding Movie.SizeHr}"/>
+        </Grid>
+    </Border>
+</UserControl>

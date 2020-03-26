@@ -12,6 +12,10 @@
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Styles/DefaultStyles.xaml"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -39,7 +43,7 @@
         </ScrollViewer>
 
         <Button x:Name="Select"
-                Margin="15"
+                Style="{DynamicResource DefaultButtonStyle}"
                 Grid.Row="1"
                 Content="{Binding TranslationProvider.Select}"/>
     </Grid>

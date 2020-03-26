@@ -15,10 +15,7 @@ namespace PanasonicSync.GUI.ViewModels
 {
     public class DeviceSelectionViewModel : ViewModelBase
     {
-        private TranslationProvider _translationProvider;
-
         private readonly ILogger _logger;
-        private readonly IKernel _standardKernel;
 
         private IObservableCollection<IPanasonicDevice> _devices;
 
@@ -32,22 +29,10 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        public TranslationProvider TranslationProvider 
-        { 
-            get => _translationProvider;
-            set
-            {
-                _translationProvider = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public DeviceSelectionViewModel(List<IPanasonicDevice> devices)
         {
             devices[0].IsChecked = true;
             Devices = new BindableCollection<IPanasonicDevice>(devices);
-            _standardKernel = Controller.Kernel;
-            TranslationProvider = Controller.TranslationProvider;
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
         }

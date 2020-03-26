@@ -4,5 +4,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="DefaultLabelStyles.xaml"/>
         <ResourceDictionary Source="DefaultProgessbarStyles.xaml"/>
+        <ResourceDictionary Source="DefaultBorderStyles.xaml"/>
+        <ResourceDictionary Source="DefaultTextBoxStyles.xaml"/>
+        <ResourceDictionary Source="DefaultButtonStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

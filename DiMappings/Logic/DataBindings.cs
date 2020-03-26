@@ -28,7 +28,6 @@ namespace DiMappings.Logic
             Bind<ISize>().To<Size>();
             Bind<IAspect>().To<Aspect>();
             Bind<IAudioOptions>().To<AudioOptions>();
-            Bind<IAudioOptions>().To<AudioOptions>();
             Bind<ISubTitleOptions>().To<SubTitleOptions>();
             Bind<IVideoOptions>().To<VideoOptions>();
             Bind<IConversionOptions>().To<ConversionOptions>();

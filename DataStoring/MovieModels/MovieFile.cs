@@ -10,6 +10,15 @@ namespace DataStoring.MovieModels
         public TimeSpan Duration { get; set; }
         public string FilePath { get; set; }
         public Uri FileLink { get; set; }
+        public bool IsSelected { get; set; }
+
+        public string SizeHr => $"{Size/1024/1024/1024} GB";
+
+        public MovieFile()
+        {
+            IsSelected = true;
+        }
+
         public override string ToString()
         {
             return Title;

@@ -141,12 +141,15 @@
     <Compile Include="Messaging\Impl\SetMainWindowControlMessage.cs" />
     <Compile Include="Messaging\Impl\ProgressbarEndMessage.cs" />
     <Compile Include="Messaging\Impl\ProgressbarNextMessage.cs" />
+    <Compile Include="Proxy\BindingProxy.cs" />
+    <Compile Include="Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="ViewModels\LoadingScreenViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MovieViewModel.cs" />
     <Compile Include="ViewModels\ProgressbarViewModel.cs" />
     <Compile Include="ViewModels\SyncSelectionViewModel.cs" />
+    <Compile Include="ViewModels\SyncViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
@@ -154,11 +157,11 @@
     <Compile Include="Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LoadingScreenView.xaml.cs">
-      <DependentUpon>LoadingScreenView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MovieView.xaml.cs">
+      <DependentUpon>MovieView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProgressbarView.xaml.cs">
       <DependentUpon>ProgressbarView.xaml</DependentUpon>
@@ -166,6 +169,17 @@
     <Compile Include="Views\SyncSelectionView.xaml.cs">
       <DependentUpon>SyncSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SyncView.xaml.cs">
+      <DependentUpon>SyncView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Styles\DefaultBorderStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DefaultButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\DefaultProgessbarStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,15 +192,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\DefaultTextBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DeviceSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LoadingScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,11 +212,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MovieView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProgressbarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SyncSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SyncView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,7 +290,9 @@
       <Name>UpnpClient</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SplashScreen Include="Resources\loadingscreen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

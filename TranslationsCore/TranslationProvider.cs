@@ -11,12 +11,20 @@ namespace TranslationsCore
     {
         public string Close { get; set; }
         public string CompareMovies { get; set; }
+        public string Download { get; set; }
         public string Error { get; set; }
         public string LoadingMovies { get; set; }
+        public string LocalMovies { get; set; }
         public string NoDevicesFoundRetry { get; set; }
-        public string SearchForDevices { get; set; }
         public string Retry { get; set; }
         public string Select { get; set; }
+        public string MovieDuration { get; set; }
+        public string MovieName { get; set; }
+        public string MovieSize { get; set; }
+        public string SearchForDevices { get; set; }
+        public string Skip { get; set; }
+        public string Start { get; set; }
+        public string RemoteMovie { get; set; }
 
         public static TranslationProvider LoadCulture(int langId)
         {
