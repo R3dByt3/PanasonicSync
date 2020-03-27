@@ -30,7 +30,7 @@ namespace Configuration
             _compressor = compressor;
 
             if (File.Exists(_appSettings.PathToConfigFile))
-                Set(compressor.DeCompress(File.ReadAllBytes(_appSettings.PathToConfigFile)));
+                Set((ISettings)compressor.DeCompress<DataStoring.Settings>(File.ReadAllBytes(_appSettings.PathToConfigFile)));
         }
 
         private void SaveSettings(object sender, PropertyChangedEventArgs e)

@@ -1,12 +1,12 @@
 ﻿using Caliburn.Micro;
 using Configuration.Contracts;
+using DataStoring;
 using DataStoring.Contracts;
 using FFmpegStandardWrapper.Abstract.Core;
 using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -19,23 +19,16 @@ namespace PanasonicSync.GUI
         public Bootstrapper()
         {
             Initialize();
-            var factory = Controller.Kernel.Get<ILoggerFactory>();
-            var configurator = Controller.Kernel.Get<IConfigurator>();
-            var settings = configurator.Get<ISettings>();
+            var kernel = Controller.Kernel;
+            var factory = kernel.Get<ILoggerFactory>();
+            var configurator = kernel.Get<IConfigurator>();
+
+            kernel.Bind<ISettings>().ToMethod(x => configurator.Get<ISettings>())
+                .InSingletonScope();
 
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
             var engine = Controller.Kernel.Get<IEngine>();
 #pragma warning restore IDE0059 // Unnecessary assignment of a value
-
-            if (settings == null)
-            {
-                settings = Controller.Kernel.Get<ISettings>();
-                settings.DeviceDiscoveringTime = 1;
-                settings.LocalMoviesPath = @"N:\Movies\ALLE_RECS";
-                settings.BlackList = new List<string> { "Club der roten Bänder" };
-                configurator.Set(settings);
-                configurator.Save();
-            }
 
             _logger = factory.CreateFileLogger();
         }

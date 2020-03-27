@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:PanasonicSync.GUI.Styles">
     <Style x:Key="DefaultLabelStyle" TargetType="Label" BasedOn="{StaticResource MetroLabel}">
         <Setter Property="Margin" Value="15"/>
-        <Setter Property="Foreground" Value="AliceBlue"/>
-        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="DarkRed"/>
+        <Setter Property="FontSize" Value="20"/>
     </Style>
 </ResourceDictionary>

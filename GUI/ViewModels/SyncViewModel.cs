@@ -11,6 +11,7 @@ using PanasonicSync.GUI.Extensions;
 using PanasonicSync.GUI.Tasks;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -80,6 +81,11 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
+        public bool CanStop
+        {
+            get => _cts != null;
+        }
+
         public SyncViewModel(IEnumerable<IMovieFile> movies)
         {
             Movies = new BindableCollection<IMovieFile>(movies);
@@ -127,45 +133,68 @@ namespace PanasonicSync.GUI.ViewModels
 
         private void ConversionProgress(object sender, ConvertProgressEventArgs e)
         {
-            ConversionProgressbar.Value = (double)e.ProcessedDuration.Ticks / (double)e.TotalDuration.Ticks;
+            ConversionProgressbar.Value = (double)e.ProcessedDuration.Ticks / (double)e.TotalDuration.Ticks * 100;
         }
 
         public void Start()
         {
-            var selectedMovies = Movies.Where(x => x.IsSelected).ToList();
+            _eventAggregator.PublishOnUIThread(false);
+
+            var selectedMovies = Movies.Where(x => x.IsSelected).OrderBy(x => x.Title).ToList();
             _eventAggregator.PublishOnUIThread(selectedMovies.Select(x => x.Title));
 
             Task.Run(() =>
             {
                 _cts = new CancellationTokenSource();
+                NotifyOfPropertyChange(() => CanStop);
 
                 foreach (var movie in selectedMovies)
                 {
-                    Task task = _downloadFactory.StartNew(() => Download(movie), _cts.Token);
+                    Task task = _downloadFactory.StartNew(() => DownloadAsync(movie), _cts.Token);
                     _downloadTasks.Add(task);
+
+                    //if (_cts.Token.IsCancellationRequested) //ToDo: Geht nicht
+                    //    break;
                 }
 
                 Task.WaitAll(_downloadTasks.ToArray());
                 Task.WaitAll(_conversionTasks.ToArray());
                 Task.WaitAll(_transferTasks.ToArray());
 
+                _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarEnd);
+
                 _cts.Dispose();
+                _cts = null;
+
                 DownloadProgressbar.Value = 0;
                 ConversionProgressbar.Value = 0;
                 TransferProgressbar.Value = 0;
+
+                _eventAggregator.PublishOnUIThread(true);
             });
         }
 
-        private void Download(IMovieFile movie)
+        private void DownloadAsync(IMovieFile movie)
         {
+            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarNext);
+
             try
             {
                 movie.FilePath = $@"tmp\{movie.Title}.tts";
                 _logger.Debug($"Download started for [{movie.FileLink}]-[{Path.GetFileName(movie.FilePath)}]");
+                using (var completedEvent = new ManualResetEventSlim(false))
                 using (var client = new WebClient())
                 {
-                    client.DownloadProgressChanged += DownloadProgressChanged;
-                    client.DownloadFile(movie.FileLink, movie.FilePath);
+                    client.DownloadProgressChanged += (sender, args) =>
+                    {
+                        DownloadProgressbar.Value = (double)args.BytesReceived / (double)movie.Size * 100;
+                    };
+                    client.DownloadFileCompleted += (sender, args) =>
+                    {
+                        completedEvent.Set();
+                    };
+                    client.DownloadFileAsync(movie.FileLink, movie.FilePath);
+                    completedEvent.Wait();
                 }
                 _logger.Debug($"Download finished for [{movie.FileLink}]-[{Path.GetFileName(movie.FilePath)}]");
 
@@ -176,11 +205,6 @@ namespace PanasonicSync.GUI.ViewModels
             {
                 _logger.Error($"Download failed for [{movie.FileLink}]-[{Path.GetFileName(movie.FilePath)}]", ex);
             }
-        }
-
-        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
-        {
-            DownloadProgressbar.Value = e.ProgressPercentage;
         }
 
         private void Convert(IMovieFile movie)
@@ -216,6 +240,7 @@ namespace PanasonicSync.GUI.ViewModels
                 var sourceInfo = new FileInfo(movie.FilePath);
                 var targetInfo = new FileInfo(targetPath);
                 sourceInfo.CopyTo(targetInfo, x => TransferProgressChanged(x));
+                sourceInfo.Delete();
 
                 _logger.Debug($"Move finished for [{Path.GetFileName(movie.FilePath)}]-[{Path.GetFileName(targetPath)}]");
             }
@@ -223,13 +248,16 @@ namespace PanasonicSync.GUI.ViewModels
             {
                 _logger.Error(ex, $"Move failed for [{Path.GetFileName(movie.FilePath)}]-[{Path.GetFileName(targetPath)}]");
             }
-
-            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarNext);
         }
 
         private void TransferProgressChanged(int value)
         {
             TransferProgressbar.Value = value;
+        }
+
+        public void Stop()
+        {
+            _cts.Cancel();
         }
     }
 }

@@ -24,7 +24,7 @@
             <Label Grid.Row="0" 
                    Content="{Binding TranslationProvider.MovieName}"/>
             <TextBox Grid.Row="1"
-                     Text="{Binding Movie.Title}"
+                     Text="{Binding Movie.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      IsReadOnly="{Binding ReadOnly}"/>
             <Label Grid.Row="2" 
                    Content="{Binding TranslationProvider.MovieDuration}"/>

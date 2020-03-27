@@ -32,9 +32,15 @@
                 <proxy:BindingProxy x:Key="proxy" Data="{Binding}"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="{Binding Data.TranslationProvider.Download, Source={StaticResource proxy}}" 
-                                        Width="Auto" 
-                                        Binding="{Binding IsSelected}"/>
+                <DataGridTemplateColumn Header="{Binding Data.TranslationProvider.Download, Source={StaticResource proxy}}" 
+                                        Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="{Binding Data.TranslationProvider.MovieName, Source={StaticResource proxy}}" 
                                     IsReadOnly="True" 
                                     Width="Auto" 
@@ -51,13 +57,14 @@
         </DataGrid>
         <Button x:Name="Start"
                 Grid.Row="1"
+                Grid.ColumnSpan="2"
                 Style="{DynamicResource DefaultButtonStyle}"
                 Content="{Binding TranslationProvider.Start}"/>
-        <Button x:Name="Stop"
+        <!--<Button x:Name="Stop"
                 Grid.Row="1"
                 Grid.Column="1"
                 Style="{DynamicResource DefaultButtonStyle}"
-                Content="{Binding TranslationProvider.Stop}"/>
+                Content="{Binding TranslationProvider.Stop}"/>-->
 
         <local:ProgressbarView Grid.Row="2"
                                Grid.ColumnSpan="2"

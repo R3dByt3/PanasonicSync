@@ -9,25 +9,31 @@ namespace TranslationsCore
 {
     public class TranslationProvider
     {
+        public string Application { get; set; }
+        public string BlackListHeader { get; set; }
         public string Close { get; set; }
+        public string Converting { get; set; }
         public string CompareMovies { get; set; }
+        public string DeviceDiscoveringTimeHeader { get; set; }
         public string Download { get; set; }
+        public string Downloading { get; set; }
         public string Error { get; set; }
         public string LoadingMovies { get; set; }
         public string LocalMovies { get; set; }
-        public string NoDevicesFoundRetry { get; set; }
-        public string Retry { get; set; }
-        public string Select { get; set; }
+        public string LocalMoviesPathHeader { get; set; }
         public string MovieDuration { get; set; }
         public string MovieName { get; set; }
         public string MovieSize { get; set; }
+        public string NoDevicesFoundRetry { get; set; }
+        public string OpenFile { get; set; }
+        public string RemoteMovie { get; set; }
+        public string Retry { get; set; }
         public string SearchForDevices { get; set; }
+        public string Select { get; set; }
+        public string Settings { get; set; }
         public string Skip { get; set; }
         public string Start { get; set; }
         public string Stop { get; set; }
-        public string RemoteMovie { get; set; }
-        public string Downloading { get; set; }
-        public string Converting { get; set; }
         public string Transferring { get; set; }
 
         public static TranslationProvider LoadCulture(int langId)

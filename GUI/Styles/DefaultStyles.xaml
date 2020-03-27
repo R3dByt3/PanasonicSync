@@ -7,5 +7,6 @@
         <ResourceDictionary Source="DefaultBorderStyles.xaml"/>
         <ResourceDictionary Source="DefaultTextBoxStyles.xaml"/>
         <ResourceDictionary Source="DefaultButtonStyles.xaml"/>
+        <ResourceDictionary Source="DefaultNumericUpDownStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

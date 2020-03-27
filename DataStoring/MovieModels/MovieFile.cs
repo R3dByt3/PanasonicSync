@@ -12,7 +12,7 @@ namespace DataStoring.MovieModels
         public Uri FileLink { get; set; }
         public bool IsSelected { get; set; }
 
-        public string SizeHr => $"{Size/1024/1024/1024} GB";
+        public string SizeHr => $"{Size/1000/1000/1000} GB";
 
         public MovieFile()
         {

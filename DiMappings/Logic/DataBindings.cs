@@ -16,9 +16,6 @@ namespace DiMappings.Logic
     {
         public override void Load()
         {
-            Bind<ISettings>().To<Settings>()
-                .InSingletonScope();
-
             Bind<IPanasonicDevice>().To<PanasonicDevice>();
 
             Bind<IMovieFile>().To<MovieFile>();

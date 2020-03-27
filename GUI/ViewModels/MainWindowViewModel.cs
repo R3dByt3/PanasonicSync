@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using Configuration.Contracts;
+using DataStoring.Contracts;
 using DataStoring.Contracts.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
@@ -12,12 +14,23 @@ using UpnpClient.Contracts;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IScreen, IHandle<ViewModelBase>
+    public class MainWindowViewModel : ViewModelBase, IScreen, IHandle<ViewModelBase>, IHandle<bool>
     {
         private readonly ILogger _logger;
 
+        private bool _isEnabled;
         private ViewModelBase _currentModel;
         private ProgressbarViewModel _progressModel;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public ViewModelBase CurrentModel
         {
@@ -42,20 +55,40 @@ namespace PanasonicSync.GUI.ViewModels
         public MainWindowViewModel()
         {
             TranslationProvider = Controller.TranslationProvider;
+            IsEnabled = true;
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
 
-            ProgressModel = new ProgressbarViewModel
-            {
-                IsIndeterminate = true
-            };
-            ProgressModel.SetSteps(new[] { TranslationProvider.SearchForDevices });
-            ProgressModel.Next();
+            ProgressModel = new ProgressbarViewModel();
         }
 
-        public void Loaded()
+        protected override void OnViewLoaded(object view)
         {
-            //_manager.ShowDialog(new LoadingScreenViewModel(_standardKernel), this, new Dictionary<string, object> { { "" } });
+            var settings = _standardKernel.Get<ISettings>();
+
+            if (settings == null)
+                OpenSettings();
+
+            base.OnViewLoaded(view);
+        }
+
+        public void Start()
+        {
+            if (CurrentModel is ConfigurationViewModel configurationViewModel)
+                configurationViewModel.Save();
+
+            var configurator = _standardKernel.Get<IConfigurator>();
+            var settings = configurator.Get<ISettings>();
+
+            if (settings == null)
+            {
+                OpenSettings();
+                return;
+            }
+
+            ProgressModel.IsIndeterminate = true;
+            ProgressModel.SetSteps(new[] { TranslationProvider.SearchForDevices });
+            ProgressModel.Next();
 
             Task.Run(async () =>
             {
@@ -106,9 +139,19 @@ namespace PanasonicSync.GUI.ViewModels
             return devices;
         }
 
+        public void OpenSettings()
+        {
+            CurrentModel = new ConfigurationViewModel();
+        }
+
         public void Handle(ViewModelBase message)
         {
             CurrentModel = message;
+        }
+
+        public void Handle(bool message)
+        {
+            IsEnabled = message;
         }
     }
 }

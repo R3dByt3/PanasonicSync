@@ -10,18 +10,30 @@
         xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         xmlns:extended="clr-namespace:ExtendedControls;assembly=ExtendedControls"
         Dialog:DialogParticipation.Register="{Binding}"
-        cal:Message.Attach="[Event Loaded]=[Action Loaded()]"
         mc:Ignorable="d"
-        Title="PanasonicSync" MinWidth="800" MinHeight="800">
+        Title="PanasonicSync" MinWidth="800" MinHeight="800" Icon="pack://application:,,,/PanasonicSync.GUI;component/Resources/Icon.png" IsEnabled="{Binding IsEnabled}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <UserControl Grid.Row="0" 
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="{Binding TranslationProvider.Application}">
+                    <MenuItem Header="{Binding TranslationProvider.Settings}"
+                              cal:Message.Attach="[Click] = [OpenSettings()]"/>
+                    <MenuItem Header="{Binding TranslationProvider.Start}"
+                              cal:Message.Attach="[Click] = [Start()]"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+
+        <UserControl Grid.Row="1" 
                      cal:View.Model="{Binding CurrentModel}"/>
-        <local:ProgressbarView Grid.Row="1" 
+        <local:ProgressbarView Grid.Row="2" 
                                cal:View.Model="{Binding ProgressModel}"/>
     </Grid>
 </Controls:MetroWindow>

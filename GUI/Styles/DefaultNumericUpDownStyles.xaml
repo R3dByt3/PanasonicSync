@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PanasonicSync.GUI.Styles"
+                    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+    <Style x:Key="DefaultNumericUpDownStyle" TargetType="Controls:NumericUpDown">
+        <Setter Property="Margin" Value="15"/>
+    </Style>
+</ResourceDictionary>
