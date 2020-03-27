@@ -23,7 +23,7 @@ namespace PanasonicSync.GUI
             var factory = kernel.Get<ILoggerFactory>();
             var configurator = kernel.Get<IConfigurator>();
 
-            kernel.Bind<ISettings>().ToMethod(x => configurator.Get<ISettings>())
+            kernel.Bind<ISettings>().ToMethod(x => configurator.Get<ISettings>() ?? new Settings())
                 .InSingletonScope();
 
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
