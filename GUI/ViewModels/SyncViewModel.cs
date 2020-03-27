@@ -264,7 +264,7 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        private void TransferProgressChanged(int value)
+        private void TransferProgressChanged(double value)
         {
             TransferProgressbar.Value = value;
         }

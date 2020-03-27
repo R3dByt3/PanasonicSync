@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{53904941
 		Setup\setup.ifp = Setup\setup.ifp
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanasonicSync.GUITests", "PanasonicSync.GUITests\PanasonicSync.GUITests.csproj", "{9C6931F6-6081-4802-9F41-101ED06F2C79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,6 +172,14 @@ Global
 		{CACA5902-0ACF-49A2-BE77-F8E2FB9B0C80}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CACA5902-0ACF-49A2-BE77-F8E2FB9B0C80}.Release|x64.ActiveCfg = Release|x64
 		{CACA5902-0ACF-49A2-BE77-F8E2FB9B0C80}.Release|x64.Build.0 = Release|x64
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Debug|x64.Build.0 = Debug|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Release|x64.ActiveCfg = Release|Any CPU
+		{9C6931F6-6081-4802-9F41-101ED06F2C79}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +199,7 @@ Global
 		{C4C5BAE5-679F-4FE6-A87F-C71BA20133FC} = {C4A201B5-CEDE-47B7-A4C3-42C5897A94D8}
 		{685B725D-FAF6-4A9A-9AED-DEB96456F81F} = {039F3853-AB7B-4B1A-8AA0-3FAC1309612D}
 		{CACA5902-0ACF-49A2-BE77-F8E2FB9B0C80} = {07A5126C-D7B2-4D3B-81B2-D5D0FA24866D}
+		{9C6931F6-6081-4802-9F41-101ED06F2C79} = {8F929B82-F5A7-4F71-9196-2C3BC208CBD0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC6B03B2-AE01-44BF-8D67-5862917E0F6A}

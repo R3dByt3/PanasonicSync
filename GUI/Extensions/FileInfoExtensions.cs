@@ -9,33 +9,38 @@ namespace PanasonicSync.GUI.Extensions
 {
     public static class FileInfoExtensions
     {
-        public static void CopyTo(this FileInfo file, FileInfo destination, Action<int> progressCallback)
+        public static void CopyTo(this FileInfo file, FileInfo destination, Action<double> progressCallback)
         {
-            const int bufferSize = 1024 * 1024;  //1MB
-            byte[] buffer = new byte[bufferSize], buffer2 = new byte[bufferSize];
-            bool swap = false;
-            int reportedProgress = 0;
-            long len = file.Length;
-            float flen = len;
-            Task writer = null;
+            byte[] buffer = new byte[1024 * 1024]; // 1MB buffer
+            //bool cancelFlag = false;
 
-            using (var source = file.OpenRead())
-            using (var dest = destination.OpenWrite())
+            using (FileStream source = file.OpenRead())
             {
-                dest.SetLength(source.Length);
-                int read;
-                for (long size = 0; size < len; size += read)
+                long fileLength = source.Length;
+                using (FileStream dest = destination.OpenWrite())
                 {
-                    int progress;
-                    if ((progress = ((int)((size / flen) * 100))) != reportedProgress)
-                        progressCallback(reportedProgress = progress);
-                    read = source.Read(swap ? buffer : buffer2, 0, bufferSize);
-                    writer?.Wait();
-                    writer = dest.WriteAsync(swap ? buffer : buffer2, 0, read);
-                    swap = !swap;
+                    long totalBytes = 0;
+                    int currentBlockSize = 0;
+
+                    while ((currentBlockSize = source.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        totalBytes += currentBlockSize;
+                        double percentage = (double)totalBytes * 100.0 / fileLength;
+
+                        dest.Write(buffer, 0, currentBlockSize);
+
+                        //cancelFlag = false;
+                        progressCallback(percentage/*, cancelFlag*/);
+
+                        //if (cancelFlag == true)
+                        //{
+                        //    // Delete dest file here
+                        //    break;
+                        //}
+                    }
                 }
-                writer?.Wait();
             }
+
         }
     }
 }
