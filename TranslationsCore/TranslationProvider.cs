@@ -24,7 +24,11 @@ namespace TranslationsCore
         public string SearchForDevices { get; set; }
         public string Skip { get; set; }
         public string Start { get; set; }
+        public string Stop { get; set; }
         public string RemoteMovie { get; set; }
+        public string Downloading { get; set; }
+        public string Converting { get; set; }
+        public string Transferring { get; set; }
 
         public static TranslationProvider LoadCulture(int langId)
         {

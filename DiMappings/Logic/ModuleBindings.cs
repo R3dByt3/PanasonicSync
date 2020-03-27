@@ -1,5 +1,6 @@
 ﻿using APIClient.Contracts.Panasonic;
 using APIClient.Panasonic;
+using Caliburn.Micro;
 using Configuration;
 using Configuration.Contracts;
 using DataStorage;
@@ -36,6 +37,9 @@ namespace DiMappings.Logic
             Bind<IEngine>().To<Engine>();
             Bind<IFFmpeg>().To<FFmpeg>();
             Bind<IFFprobe>().To<FFprobe>();
+
+            Bind<IEventAggregator>().To<EventAggregator>()
+                .InSingletonScope();
         }
     }
 }

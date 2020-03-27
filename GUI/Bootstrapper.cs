@@ -22,7 +22,10 @@ namespace PanasonicSync.GUI
             var factory = Controller.Kernel.Get<ILoggerFactory>();
             var configurator = Controller.Kernel.Get<IConfigurator>();
             var settings = configurator.Get<ISettings>();
+
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             var engine = Controller.Kernel.Get<IEngine>();
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             if (settings == null)
             {

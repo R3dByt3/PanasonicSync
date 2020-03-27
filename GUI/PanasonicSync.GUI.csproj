@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CA1031</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -36,6 +37,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CA1012;CA1031</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
@@ -134,13 +139,9 @@
     <Compile Include="Comparer\MovieSimilarityComparer.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="DebugLogger.cs" />
+    <Compile Include="Enums\CommandEnums.cs" />
+    <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Messaging\Abstract\IHandleMessage.cs" />
-    <Compile Include="Messaging\Abstract\IMessage.cs" />
-    <Compile Include="Messaging\Impl\SetProgressControlMessage.cs" />
-    <Compile Include="Messaging\Impl\SetMainWindowControlMessage.cs" />
-    <Compile Include="Messaging\Impl\ProgressbarEndMessage.cs" />
-    <Compile Include="Messaging\Impl\ProgressbarNextMessage.cs" />
     <Compile Include="Proxy\BindingProxy.cs" />
     <Compile Include="Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />
     <Compile Include="ViewModels\ConfigurationViewModel.cs" />
@@ -292,6 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="Resources\loadingscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\App.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

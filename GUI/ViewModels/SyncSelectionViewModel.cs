@@ -4,13 +4,11 @@ using DataStoring.Contracts;
 using DataStoring.Contracts.MovieModels;
 using DataStoring.Contracts.UpnpResponse;
 using FFmpegStandardWrapper.Abstract.Core;
-using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.Comparer;
-using PanasonicSync.GUI.Messaging.Impl;
+using PanasonicSync.GUI.Enums;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +17,7 @@ using TranslationsCore;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class SyncSelectionViewModel : ViewModelBase
+    public class SyncSelectionViewModel : ViewModelBase, IScreen
     {
         private IPanasonicDevice _panasonicDevice;
         private Stack<IConflict> _conflictsToResolve;
@@ -29,6 +27,7 @@ namespace PanasonicSync.GUI.ViewModels
         private IMovieFile _movie;
         private IList<MovieViewModel> _conflicts;
         private IList<IMovieFile> _missingMovies;
+        private bool _isEnabled;
 
         public IMovieFile Movie
         {
@@ -60,6 +59,16 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public SyncSelectionViewModel(IPanasonicDevice panasonicDevice)
         {
             PanasonicDevice = panasonicDevice;
@@ -74,18 +83,21 @@ namespace PanasonicSync.GUI.ViewModels
         private async void Load(IPanasonicDevice panasonicDevice)
         {
             var panasonicClient = _standardKernel.Get<IPanasonicClient>();
+            _logger.Info($"Attempting to gain controls for device [{panasonicDevice}]");
             panasonicClient.LoadControlsUri(panasonicDevice);
-            SendMessage(new SetProgressControlMessage(new ProgressbarViewModel(new[]
-            {
-                new Tuple<string, bool>(TranslationProvider.CompareMovies, true),
-                new Tuple<string, bool>(TranslationProvider.LoadingMovies, true),
-            })));
-            SendMessage(new ProgressbarNextMessage());
+            _logger.Info($"Controls gained for device [{panasonicDevice}]");
 
+            _eventAggregator.PublishOnUIThread(new[] { TranslationProvider.LoadingMovies, TranslationProvider.CompareMovies });
+            _eventAggregator.PublishOnUIThread(CommandEnum.IsIndetermined);
+            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarNext);
+
+            _logger.Info($"Attempting to gain remote movies");
             var remoteItems = Task.Run(() => panasonicClient.RequestMovies().ToList());
+            _logger.Info($"Attempting to gain local movies");
             var localItems = Task.Run(() => LoadLocalFiles().ToList());
 
             var remoteMovies = await remoteItems;
+            _logger.Info($"[{remoteMovies.Count}] remote movies gained");
             List<IMovieFile> remoteFileList = new List<IMovieFile>();
 
             foreach (var file in remoteMovies)
@@ -99,8 +111,9 @@ namespace PanasonicSync.GUI.ViewModels
             }
 
             var localMovies = await localItems;
+            _logger.Info($"[{localMovies.Count}] local movies gained");
 
-            SendMessage(new ProgressbarNextMessage());
+            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarNext);
 
             Compare(remoteFileList, localMovies);
         }
@@ -145,8 +158,8 @@ namespace PanasonicSync.GUI.ViewModels
                 local.Duration = probe.GetVideoLenght(local.FilePath);
             });
 
-            SendMessage(new ProgressbarEndMessage());
-
+            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarEnd);
+            IsEnabled = true;
             SetNextConflict();
         }
 
@@ -154,7 +167,7 @@ namespace PanasonicSync.GUI.ViewModels
         {
             if (_conflictsToResolve == null || !_conflictsToResolve.Any())
             {
-                SendMessage(new SetMainWindowControlMessage(new SyncViewModel(_missingMovies)));
+                _eventAggregator.PublishOnUIThread(new SyncViewModel(_missingMovies));
                 return;
             }
 

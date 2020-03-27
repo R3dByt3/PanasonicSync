@@ -12,7 +12,7 @@
              xmlns:extended="clr-namespace:ExtendedControls;assembly=ExtendedControls"
              Dialog:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" IsEnabled="{Binding IsEnabled}">
     <UserControl.Resources>
         <ResourceDictionary Source="../Styles/DefaultStyles.xaml"/>
     </UserControl.Resources>

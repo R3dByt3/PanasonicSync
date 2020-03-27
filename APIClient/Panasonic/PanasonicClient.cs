@@ -3,7 +3,6 @@ using DataStoring.Contracts.UpnpResponse;
 using DataStoring.PanasonicControlsResponse;
 using DataStoring.PanasonicResponse;
 using NetStandard.Logger;
-using Ninject;
 using System;
 using System.Collections.Generic;
 using System.IO;

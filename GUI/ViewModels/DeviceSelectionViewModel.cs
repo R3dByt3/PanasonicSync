@@ -1,21 +1,13 @@
 ﻿using Caliburn.Micro;
 using DataStoring.Contracts.UpnpResponse;
-using MahApps.Metro.Controls.Dialogs;
-using NetStandard.Logger;
-using Ninject;
-using PanasonicSync.GUI.Messaging.Abstract;
-using PanasonicSync.GUI.Messaging.Impl;
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using TranslationsCore;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class DeviceSelectionViewModel : ViewModelBase
+    public class DeviceSelectionViewModel : ViewModelBase, IScreen
     {
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
         private IObservableCollection<IPanasonicDevice> _devices;
 
@@ -33,13 +25,13 @@ namespace PanasonicSync.GUI.ViewModels
         {
             devices[0].IsChecked = true;
             Devices = new BindableCollection<IPanasonicDevice>(devices);
-            var factory = _standardKernel.Get<ILoggerFactory>();
-            _logger = factory.CreateFileLogger();
+            //var factory = _standardKernel.Get<ILoggerFactory>();
+            //_logger = factory.CreateFileLogger();
         }
 
         public void Select()
         {
-            SendMessage(new SetMainWindowControlMessage(new SyncSelectionViewModel(Devices.First(x => x.IsChecked))));
+            _eventAggregator.PublishOnUIThread(new SyncSelectionViewModel(Devices.First(x => x.IsChecked)));
         }
     }
 }

@@ -4,5 +4,3 @@
 // a specific target and scoped to a namespace, type, member, etc.
 
 using System.Diagnostics.CodeAnalysis;
-
-[assembly: SuppressMessage("Design", "CA1012:Abstract types should not have constructors", Justification = "<Pending>", Scope = "type", Target = "~T:PanasonicSync.GUI.ViewModels.ViewModelBase")]

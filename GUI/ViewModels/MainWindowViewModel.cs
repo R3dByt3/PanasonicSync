@@ -1,22 +1,18 @@
-﻿using APIClient.Contracts.Panasonic;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using DataStoring.Contracts.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
-using PanasonicSync.GUI.Messaging.Abstract;
-using PanasonicSync.GUI.Messaging.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using TranslationsCore;
 using UpnpClient.Contracts;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase, IHandleMessage, IScreen
+    public class MainWindowViewModel : ViewModelBase, IScreen, IHandle<ViewModelBase>
     {
         private readonly ILogger _logger;
 
@@ -49,10 +45,11 @@ namespace PanasonicSync.GUI.ViewModels
             var factory = _standardKernel.Get<ILoggerFactory>();
             _logger = factory.CreateFileLogger();
 
-            ProgressModel = new ProgressbarViewModel(new[]
+            ProgressModel = new ProgressbarViewModel
             {
-                new Tuple<string, bool>(TranslationProvider.SearchForDevices, true),
-            });
+                IsIndeterminate = true
+            };
+            ProgressModel.SetSteps(new[] { TranslationProvider.SearchForDevices });
             ProgressModel.Next();
         }
 
@@ -62,7 +59,9 @@ namespace PanasonicSync.GUI.ViewModels
 
             Task.Run(async () =>
             {
+                _logger.Info($"Device detection started");
                 var devices = await StartDeviceDetectionLoop();
+                _logger.Info($"[{devices.Count}] Devices found");
 
                 if (devices.Count > 1)
                     CurrentModel = new DeviceSelectionViewModel(devices);
@@ -75,7 +74,7 @@ namespace PanasonicSync.GUI.ViewModels
         {
             var devices = SearchDevices();
 
-            while (!devices.Any()) //ToDo: Test
+            while (!devices.Any())
             {
                 devices = SearchDevices();
                 var result = await _dialogCoordinator.ShowMessageAsync(
@@ -107,16 +106,9 @@ namespace PanasonicSync.GUI.ViewModels
             return devices;
         }
 
-        public void Handle(IMessage message)
+        public void Handle(ViewModelBase message)
         {
-            if (message is ProgressbarEndMessage)
-                ProgressModel.End();
-            else if (message is ProgressbarNextMessage)
-                ProgressModel.Next();
-            else if (message is SetMainWindowControlMessage setControlMessage)
-                CurrentModel = setControlMessage.ViewModel;
-            else if (message is SetProgressControlMessage setProgessMessage)
-                ProgressModel = setProgessMessage.ViewModel;
+            CurrentModel = message;
         }
     }
 }

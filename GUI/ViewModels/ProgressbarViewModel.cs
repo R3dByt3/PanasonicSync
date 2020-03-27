@@ -1,18 +1,31 @@
 ﻿using Caliburn.Micro;
-using System;
+using PanasonicSync.GUI.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class ProgressbarViewModel : ViewModelBase
+    public class ProgressbarViewModel : ViewModelBase, IScreen, IHandle<CommandEnum>, IHandle<IEnumerable<string>>
     {
-        public Stack<Tuple<string, bool>> Steps;
+        private readonly bool _doesHandle;
 
         private string _currentStep;
         private bool _isIndeterminate;
         private double _maximum;
         private double _value;
+        private Stack<string> _steps;
+
+        public Stack<string> Steps
+        {
+            get => _steps;
+            set
+            {
+                _steps = value;
+                NotifyOfPropertyChange();
+
+                Maximum = _steps.Count();
+            }
+        }
 
         public string CurrentStep
         {
@@ -44,8 +57,8 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        public double Value 
-        { 
+        public double Value
+        {
             get => _value;
             set
             {
@@ -54,18 +67,25 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
-        public ProgressbarViewModel(IEnumerable<Tuple<string, bool>> steps)
+        public ProgressbarViewModel()
         {
-            Steps = new Stack<Tuple<string, bool>>(steps);
-            Maximum = steps.Count();
+            _doesHandle = true;
+        }
+
+        public ProgressbarViewModel(bool doesHandle)
+        {
+            _doesHandle = doesHandle;
+        }
+
+        public void SetSteps(IEnumerable<string> steps)
+        {
+            Steps = new Stack<string>(steps.Reverse());
         }
 
         public void Next()
         {
-            var values = Steps.Pop();
             Value++;
-            CurrentStep = values.Item1;
-            IsIndeterminate = values.Item2;
+            CurrentStep = Steps.Pop();
         }
 
         public void End()
@@ -73,7 +93,7 @@ namespace PanasonicSync.GUI.ViewModels
             IsIndeterminate = false;
             CurrentStep = string.Empty;
             Maximum = 1;
-            Value = 1;
+            Value = 0;
         }
 
         public void Reset()
@@ -81,6 +101,36 @@ namespace PanasonicSync.GUI.ViewModels
             End();
 
             Steps.Clear();
+        }
+
+        public void Handle(CommandEnum message)
+        {
+            if (!_doesHandle)
+                return;
+
+            switch (message)
+            {
+                case CommandEnum.ProgressbarEnd:
+                    End();
+                    break;
+                case CommandEnum.ProgressbarNext:
+                    Next();
+                    break;
+                case CommandEnum.IsIndetermined:
+                    IsIndeterminate = true;
+                    break;
+                case CommandEnum.IsNotIndetermined:
+                    IsIndeterminate = false;
+                    break;
+            }
+        }
+
+        public void Handle(IEnumerable<string> message)
+        {
+            if (!_doesHandle)
+                return;
+
+            SetSteps(message);
         }
     }
 }

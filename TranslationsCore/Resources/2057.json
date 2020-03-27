@@ -1,18 +1,22 @@
 ﻿{
   "Close": "Close",
   "CompareMovies": "Comparing movies...",
+  "Converting": "Converting...",
   "Download": "Download",
+  "Downloading": "Downloading...",
   "Error": "Error",
   "LoadingMovies": "Loading movie information...",
-  "LocalMovies": "Local movie(s):",
-  "MovieDuration": "Movie duration:",
-  "MovieName": "Movie name:",
-  "MovieSize": "Movie size:",
+  "LocalMovies": "Local movie(s)",
+  "MovieDuration": "Movie duration",
+  "MovieName": "Movie name",
+  "MovieSize": "Movie size",
   "NoDevicesFoundRetry": "No devices could be found...\r\nRetry or Close?",
   "SearchForDevices": "Searching for devices...",
   "Retry": "Retry",
-  "RemoteMovie": "Remote movie:",
+  "RemoteMovie": "Remote movie",
   "Select": "Select",
   "Skip": "Skip",
-  "Start": "Start"
+  "Start": "Start",
+  "Stop": "Stop",
+  "Transferring": "Transferring..."
 }
