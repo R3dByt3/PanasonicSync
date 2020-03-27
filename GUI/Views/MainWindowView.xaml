@@ -11,7 +11,7 @@
         xmlns:extended="clr-namespace:ExtendedControls;assembly=ExtendedControls"
         Dialog:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
-        Title="PanasonicSync" MinWidth="800" MinHeight="800" Icon="pack://application:,,,/PanasonicSync.GUI;component/Resources/Icon.png" IsEnabled="{Binding IsEnabled}">
+        Title="PanasonicSync" MinWidth="800" MinHeight="800" Icon="pack://application:,,,/PanasonicSync.GUI;component/Resources/Icon.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,7 +19,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel>
+        <DockPanel IsEnabled="{Binding IsEnabled}">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="{Binding TranslationProvider.Application}">
                     <MenuItem Header="{Binding TranslationProvider.Settings}"

@@ -42,6 +42,17 @@ namespace PanasonicSync.GUI.ViewModels
         private ProgressbarViewModel _downloadProgressbar;
         private ProgressbarViewModel _conversionProgressbar;
         private ProgressbarViewModel _transferProgressbar;
+        private bool _isEnabled;
+
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set
+            {
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public ProgressbarViewModel DownloadProgressbar
         {
@@ -89,6 +100,7 @@ namespace PanasonicSync.GUI.ViewModels
         public SyncViewModel(IEnumerable<IMovieFile> movies)
         {
             Movies = new BindableCollection<IMovieFile>(movies);
+            IsEnabled = true;
 
             _logger = _standardKernel.Get<ILoggerFactory>().CreateFileLogger();
             _settings = _standardKernel.Get<ISettings>();
@@ -138,6 +150,7 @@ namespace PanasonicSync.GUI.ViewModels
 
         public void Start()
         {
+            IsEnabled = false;
             _eventAggregator.PublishOnUIThread(false);
 
             var selectedMovies = Movies.Where(x => x.IsSelected).OrderBy(x => x.Title).ToList();
@@ -170,6 +183,7 @@ namespace PanasonicSync.GUI.ViewModels
                 ConversionProgressbar.Value = 0;
                 TransferProgressbar.Value = 0;
 
+                IsEnabled = true;
                 _eventAggregator.PublishOnUIThread(true);
             });
         }

@@ -27,7 +27,8 @@
         <DataGrid Margin="15"
                   Grid.ColumnSpan="2"
                   ItemsSource="{Binding Movies}"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                  IsEnabled="{Binding IsEnabled}">
             <DataGrid.Resources>
                 <proxy:BindingProxy x:Key="proxy" Data="{Binding}"/>
             </DataGrid.Resources>
@@ -59,7 +60,8 @@
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Style="{DynamicResource DefaultButtonStyle}"
-                Content="{Binding TranslationProvider.Start}"/>
+                Content="{Binding TranslationProvider.Start}"
+                IsEnabled="{Binding IsEnabled}"/>
         <!--<Button x:Name="Stop"
                 Grid.Row="1"
                 Grid.Column="1"
