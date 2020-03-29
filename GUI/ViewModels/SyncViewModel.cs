@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class SyncViewModel : ViewModelBase, IScreen
+    public class SyncViewModel : ViewModelBase, IScreen, IHandle<bool>
     {
         private readonly ILogger _logger;
         private readonly IFFprobe _ffprobe;
@@ -38,11 +38,12 @@ namespace PanasonicSync.GUI.ViewModels
         private CancellationTokenSource _cts;
 
         private IObservableCollection<IMovieFile> _movies;
-
         private ProgressbarViewModel _downloadProgressbar;
         private ProgressbarViewModel _conversionProgressbar;
         private ProgressbarViewModel _transferProgressbar;
+
         private bool _isEnabled;
+        private int _progress;
 
         public bool IsEnabled
         {
@@ -150,7 +151,6 @@ namespace PanasonicSync.GUI.ViewModels
 
         public void Start()
         {
-            IsEnabled = false;
             _eventAggregator.PublishOnUIThread(false);
 
             var selectedMovies = Movies.Where(x => x.IsSelected).OrderBy(x => x.Title).ToList();
@@ -174,23 +174,22 @@ namespace PanasonicSync.GUI.ViewModels
                 Task.WaitAll(_conversionTasks.ToArray());
                 Task.WaitAll(_transferTasks.ToArray());
 
-                _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarEnd);
-
                 _cts.Dispose();
                 _cts = null;
 
                 DownloadProgressbar.Value = 0;
                 ConversionProgressbar.Value = 0;
                 TransferProgressbar.Value = 0;
+                _progress = 0;
 
-                IsEnabled = true;
+                _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarEnd);
                 _eventAggregator.PublishOnUIThread(true);
             });
         }
 
         private void DownloadAsync(IMovieFile movie)
         {
-            _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarNext);
+            _eventAggregator.PublishOnUIThread(movie.Title);
 
             try
             {
@@ -262,6 +261,9 @@ namespace PanasonicSync.GUI.ViewModels
             {
                 _logger.Error(ex, $"Move failed for [{Path.GetFileName(movie.FilePath)}]-[{Path.GetFileName(targetPath)}]");
             }
+
+            Movies.Remove(movie);
+            _eventAggregator.PublishOnUIThread(++_progress);
         }
 
         private void TransferProgressChanged(double value)
@@ -272,6 +274,11 @@ namespace PanasonicSync.GUI.ViewModels
         public void Stop()
         {
             _cts.Cancel();
+        }
+
+        public void Handle(bool message)
+        {
+            IsEnabled = message;
         }
     }
 }

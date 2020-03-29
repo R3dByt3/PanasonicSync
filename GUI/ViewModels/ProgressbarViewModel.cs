@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PanasonicSync.GUI.ViewModels
 {
-    public class ProgressbarViewModel : ViewModelBase, IScreen, IHandle<CommandEnum>, IHandle<IEnumerable<string>>
+    public class ProgressbarViewModel : ViewModelBase, IScreen, IHandle<CommandEnum>, IHandle<IEnumerable<string>>, IHandle<string>, IHandle<int>
     {
         private readonly bool _doesHandle;
 
@@ -131,6 +131,16 @@ namespace PanasonicSync.GUI.ViewModels
                 return;
 
             SetSteps(message);
+        }
+
+        public void Handle(string message)
+        {
+            CurrentStep = message;
+        }
+
+        public void Handle(int message)
+        {
+            Value = message;
         }
     }
 }

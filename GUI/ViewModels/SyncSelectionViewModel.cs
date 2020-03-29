@@ -206,6 +206,7 @@ namespace PanasonicSync.GUI.ViewModels
         {
             GetNextFreeTitle();
             _missingMovies.Add(Movie);
+            SetNextConflict();
         }
 
         private void GetNextFreeTitle()
