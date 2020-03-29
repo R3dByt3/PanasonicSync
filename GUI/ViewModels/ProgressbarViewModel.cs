@@ -135,11 +135,17 @@ namespace PanasonicSync.GUI.ViewModels
 
         public void Handle(string message)
         {
+            if (!_doesHandle)
+                return;
+
             CurrentStep = message;
         }
 
         public void Handle(int message)
         {
+            if (!_doesHandle)
+                return;
+
             Value = message;
         }
     }

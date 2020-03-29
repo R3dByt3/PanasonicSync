@@ -77,8 +77,7 @@ namespace PanasonicSync.GUI.ViewModels
             if (CurrentModel is ConfigurationViewModel configurationViewModel)
                 configurationViewModel.Save();
 
-            var configurator = _standardKernel.Get<IConfigurator>();
-            var settings = configurator.Get<ISettings>();
+            var settings = _standardKernel.Get<ISettings>();
 
             if (settings == null)
             {

@@ -155,7 +155,14 @@ namespace PanasonicSync.GUI.ViewModels
 
             Parallel.ForEach(localDuplicates, local =>
             {
-                local.Duration = probe.GetVideoLenght(local.FilePath);
+                try
+                {
+                    local.Duration = probe.GetVideoLenght(local.FilePath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Fatal(ex, $"Could not get movie lenght for local [{local.Title}]");
+                }
             });
 
             _eventAggregator.PublishOnUIThread(CommandEnum.ProgressbarEnd);
