@@ -53,6 +53,7 @@ namespace PanasonicSync.GUI.ViewModels
 
         public ConfigurationViewModel()
         {
+            _configurator = _standardKernel.Get<IConfigurator>();
             _settings = _standardKernel.Get<ISettings>();
         }
 
