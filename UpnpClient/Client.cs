@@ -31,7 +31,7 @@ namespace UpnpClient
         {
             _kernel = kernel;
             _logger = loggerFactory.CreateFileLogger();
-            _settings = configurator.Get<ISettings>();
+            _settings = _kernel.Get<ISettings>();
 
             string ipaddress = GetLocalIPAddress();
             _logger.Debug($"Machine IP = {ipaddress}");

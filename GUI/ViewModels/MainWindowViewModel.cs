@@ -66,7 +66,7 @@ namespace PanasonicSync.GUI.ViewModels
         {
             var settings = _standardKernel.Get<ISettings>();
 
-            if (settings == null)
+            if (!settings.IsValid)
                 OpenSettings();
 
             base.OnViewLoaded(view);
@@ -75,11 +75,11 @@ namespace PanasonicSync.GUI.ViewModels
         public void Start()
         {
             if (CurrentModel is ConfigurationViewModel configurationViewModel)
-                configurationViewModel.Save();
+                configurationViewModel.TryClose();
 
             var settings = _standardKernel.Get<ISettings>();
 
-            if (settings == null)
+            if (!settings.IsValid)
             {
                 OpenSettings();
                 return;

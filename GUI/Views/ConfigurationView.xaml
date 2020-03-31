@@ -33,7 +33,7 @@
                Style="{DynamicResource DefaultLabelStyle}"/>
         <Controls:NumericUpDown Grid.Row="1"
                                 Value="{Binding DeviceDiscoveringTime}"
-                                Minimum="0"
+                                Minimum="1"
                                 Maximum="10"
                                 Style="{DynamicResource DefaultNumericUpDownStyle}"
                                 TextAlignment="Left"/>
