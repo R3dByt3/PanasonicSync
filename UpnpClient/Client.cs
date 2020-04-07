@@ -27,7 +27,7 @@ namespace UpnpClient
 
         public string LocalIP { get; private set; }
 
-        public Client(IKernel kernel, ILoggerFactory loggerFactory, IConfigurator configurator)
+        public Client(IKernel kernel, ILoggerFactory loggerFactory)
         {
             _kernel = kernel;
             _logger = loggerFactory.CreateFileLogger();

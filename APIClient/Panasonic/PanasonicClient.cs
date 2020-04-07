@@ -31,13 +31,13 @@ namespace APIClient.Panasonic
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>\r\n";
 
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
         private Uri _controlsUri;
 
-        public PanasonicClient(ILoggerFactory loggerFactory)
+        public PanasonicClient(/*ILoggerFactory loggerFactory*/)
         {
-            _logger = loggerFactory.CreateFileLogger();
+            //_logger = loggerFactory.CreateFileLogger();
         }
 
         public void LoadControlsUri(IPanasonicDevice device)
