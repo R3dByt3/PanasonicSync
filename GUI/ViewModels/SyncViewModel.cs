@@ -23,7 +23,7 @@ namespace PanasonicSync.GUI.ViewModels
     public class SyncViewModel : ViewModelBase, IScreen, IHandle<bool>
     {
         private readonly ILogger _logger;
-        private readonly IFFprobe _ffprobe;
+        //private readonly IFFprobe _ffprobe;
         private readonly IFFmpeg _ffmpeg;
         private readonly IConversionOptions _conversionOptions;
         private readonly ISettings _settings;
@@ -106,7 +106,7 @@ namespace PanasonicSync.GUI.ViewModels
             _logger = _standardKernel.Get<ILoggerFactory>().CreateFileLogger();
             _settings = _standardKernel.Get<ISettings>();
             _ffmpeg = _standardKernel.Get<IFFmpeg>();
-            _ffprobe = _standardKernel.Get<IFFprobe>();
+            //_ffprobe = _standardKernel.Get<IFFprobe>();
             _conversionOptions = _standardKernel.Get<IConversionOptions>();
 
             var downloadScheduler = new LimitedConcurrencyLevelTaskScheduler(1);
@@ -245,7 +245,7 @@ namespace PanasonicSync.GUI.ViewModels
         private void Transfer(IMovieFile movie)
         {
             var fileName = Path.GetFileName(movie.FilePath);
-            var targetPath = Path.Combine(@"N:\Movies\ALLE_RECS", fileName);
+            var targetPath = Path.Combine(_settings.LocalMoviesPath, fileName);
             try
             {
                 _logger.Debug($"Move started for [{Path.GetFileName(movie.FilePath)}]-[{Path.GetFileName(targetPath)}]");

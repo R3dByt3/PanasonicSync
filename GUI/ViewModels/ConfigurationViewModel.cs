@@ -11,9 +11,9 @@ namespace PanasonicSync.GUI.ViewModels
     public class ConfigurationViewModel : ViewModelBase, IScreen
     {
         private readonly IConfigurator _configurator;
+        private readonly ISettings _settings;
 
         private bool _changed;
-        private ISettings _settings;
 
         private double _deviceDiscoveringTime;
         private string _localMoviesPath;
