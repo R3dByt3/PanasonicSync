@@ -2,9 +2,11 @@
 using Configuration.Contracts;
 using DataStoring.Contracts;
 using DataStoring.Contracts.UpnpResponse;
+using DataStoring.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
+using PanasonicSync.GUI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,8 +133,17 @@ namespace PanasonicSync.GUI.ViewModels
 
         private List<IPanasonicDevice> SearchDevices()
         {
+            List<IPanasonicDevice> devices = new List<IPanasonicDevice>();
+
             IClient client = _standardKernel.Get<IClient>();
-            var devices = client.SearchUpnpDevices().ToList();
+            try
+            {
+                devices = client.SearchUpnpDevices().ToList();
+            }
+            catch
+            {
+                return new List<IPanasonicDevice>();
+            }
             ProgressModel.End();
 
             return devices;

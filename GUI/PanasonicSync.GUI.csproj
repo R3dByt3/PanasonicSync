@@ -128,6 +128,7 @@
     <Compile Include="DebugLogger.cs" />
     <Compile Include="Enums\CommandEnums.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Proxy\BindingProxy.cs" />
     <Compile Include="Tasks\LimitedConcurrencyLevelTaskScheduler.cs" />

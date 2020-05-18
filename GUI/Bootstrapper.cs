@@ -7,6 +7,8 @@ using NetStandard.Logger;
 using Ninject;
 using PanasonicSync.GUI.ViewModels;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -19,6 +21,10 @@ namespace PanasonicSync.GUI
         public Bootstrapper()
         {
             Initialize();
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => OnUnhandledException(sender, e);
+            Application.DispatcherUnhandledException += (sender, e) => OnUnhandledException(sender, e);
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
             var kernel = Controller.Kernel;
             var factory = kernel.Get<ILoggerFactory>();
             var configurator = kernel.Get<IConfigurator>();
@@ -46,6 +52,29 @@ namespace PanasonicSync.GUI
             e.Handled = true;
 
             base.OnUnhandledException(sender, e);
+        }
+
+        protected void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Thread thread = new Thread(() =>
+            {
+                LogErrors(e.ExceptionObject as Exception);
+                Xceed.Wpf.Toolkit.MessageBox.Show("Ein unbekannter Fehler ist aufgetreten. Bitte schließen Sie das Programm und kontaktieren Sie den Entwickler.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+        }
+
+        protected void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Thread thread = new Thread(() =>
+            {
+                LogErrors(e.Exception);
+                Xceed.Wpf.Toolkit.MessageBox.Show("Ein unbekannter Fehler ist aufgetreten. Bitte schließen Sie das Programm und kontaktieren Sie den Entwickler.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.SetObserved();
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         private void LogErrors(Exception ex)
