@@ -39,6 +39,13 @@ namespace PanasonicSync.GUI
             _logger = factory.CreateFileLogger();
         }
 
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            var factory = Controller.Kernel.Get<ILoggerFactory>();
+            factory.Dispose();
+            base.OnExit(sender, e);
+        }
+
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             LogManager.GetLog = type => new DebugLogger(type);

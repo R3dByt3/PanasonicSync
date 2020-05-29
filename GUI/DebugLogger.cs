@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace PanasonicSync.GUI
 {
-    public class DebugLogger : ILog
+    internal class DebugLogger : ILog
     {
         private readonly Type _type;
 

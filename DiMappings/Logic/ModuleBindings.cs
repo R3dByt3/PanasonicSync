@@ -23,8 +23,8 @@ namespace DiMappings.Logic
             Bind<ILoggerFactory>().To<LoggerFactory>()
                 .InSingletonScope()
                 .WithConstructorArgument("PanasonicSync")
-                .WithConstructorArgument(LoggingLevel.Debug)
-                .OnDeactivation(x => x.Dispose());
+                .WithConstructorArgument(LoggingLevel.Debug);
+                //.On(x => x.Dispose());
 
             Bind<IFileManager>().To<FileManager>();
             Bind<ICompressor>().To<Compressor>();
