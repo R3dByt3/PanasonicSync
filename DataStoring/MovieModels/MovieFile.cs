@@ -16,7 +16,6 @@ namespace DataStoring.MovieModels
 
         public MovieFile()
         {
-            IsSelected = true;
         }
 
         public override string ToString()
