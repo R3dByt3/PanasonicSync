@@ -100,7 +100,7 @@ namespace PanasonicSync.GUI.ViewModels
 
         public SyncViewModel(IEnumerable<IMovieFile> movies)
         {
-            Movies = new BindableCollection<IMovieFile>(movies);
+            Movies = new BindableCollection<IMovieFile>(movies.OrderBy(x => x.Duration));
             IsEnabled = true;
 
             _logger = _standardKernel.Get<ILoggerFactory>().CreateFileLogger();
@@ -153,7 +153,7 @@ namespace PanasonicSync.GUI.ViewModels
         {
             _eventAggregator.PublishOnUIThread(false);
 
-            var selectedMovies = Movies.Where(x => x.IsSelected).OrderBy(x => x.Title).ToList();
+            var selectedMovies = Movies.Where(x => x.IsSelected).ToList();
             _eventAggregator.PublishOnUIThread(selectedMovies.Select(x => x.Title));
 
             Task.Run(() =>
