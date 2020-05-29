@@ -6,7 +6,9 @@ using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -33,23 +35,31 @@ namespace UpnpClient
             _logger = loggerFactory.CreateFileLogger();
             _settings = _kernel.Get<ISettings>();
 
-            string ipaddress = GetLocalIPAddress();
+            string ipaddress = GetAllLocalIPv4(NetworkInterfaceType.Ethernet & NetworkInterfaceType.Wireless80211).FirstOrDefault();
+            LocalIP = ipaddress;
             _logger.Debug($"Machine IP = {ipaddress}");
 
             _multicastEndPoint = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 1900);
             _localEndPoint = new IPEndPoint(IPAddress.Parse(ipaddress), 60000);
         }
 
-        private string GetLocalIPAddress()
+        public string[] GetAllLocalIPv4(NetworkInterfaceType type)
         {
-            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+            List<string> ipAddrList = new List<string>();
+            foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
             {
-                socket.Connect("8.8.8.8", 65530);
-                IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
-                LocalIP = endPoint.Address.ToString();
+                if (item.NetworkInterfaceType == type && item.OperationalStatus == OperationalStatus.Up)
+                {
+                    foreach (UnicastIPAddressInformation ip in item.GetIPProperties().UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddrList.Add(ip.Address.ToString());
+                        }
+                    }
+                }
             }
-
-            return LocalIP;
+            return ipAddrList.ToArray();
         }
 
         public IEnumerable<IPanasonicDevice> SearchUpnpDevices()
