@@ -35,7 +35,8 @@ namespace UpnpClient
             _logger = loggerFactory.CreateFileLogger();
             _settings = _kernel.Get<ISettings>();
 
-            string ipaddress = GetAllLocalIPv4(NetworkInterfaceType.Ethernet & NetworkInterfaceType.Wireless80211).FirstOrDefault();
+            var ipaddresses = GetAllLocalIPv4(NetworkInterfaceType.Ethernet).Union(GetAllLocalIPv4(NetworkInterfaceType.Wireless80211));
+            string ipaddress = ipaddresses.FirstOrDefault();
             LocalIP = ipaddress;
             _logger.Debug($"Machine IP = {ipaddress}");
 
@@ -43,9 +44,8 @@ namespace UpnpClient
             _localEndPoint = new IPEndPoint(IPAddress.Parse(ipaddress), 60000);
         }
 
-        public string[] GetAllLocalIPv4(NetworkInterfaceType type)
+        public IEnumerable<string> GetAllLocalIPv4(NetworkInterfaceType type)
         {
-            List<string> ipAddrList = new List<string>();
             foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (item.NetworkInterfaceType == type && item.OperationalStatus == OperationalStatus.Up)
@@ -54,12 +54,11 @@ namespace UpnpClient
                     {
                         if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
                         {
-                            ipAddrList.Add(ip.Address.ToString());
+                            yield return ip.Address.ToString();
                         }
                     }
                 }
             }
-            return ipAddrList.ToArray();
         }
 
         public IEnumerable<IPanasonicDevice> SearchUpnpDevices()
