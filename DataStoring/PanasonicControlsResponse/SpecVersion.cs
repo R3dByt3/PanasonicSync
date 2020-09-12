@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "specVersion", Namespace = "urn:schemas-upnp-org:device-1-0")]
+    [XmlRoot(ElementName = "specVersion", Namespace = "urn:schemas-upnp-org:device-1-0")]
 	public class SpecVersion
 	{
 		[XmlElement(ElementName = "major", Namespace = "urn:schemas-upnp-org:device-1-0")]

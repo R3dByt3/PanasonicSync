@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "X_ACE_LIST", Namespace = "urn:schemas-panasonic-com:vli")]
+    [XmlRoot(ElementName = "X_ACE_LIST", Namespace = "urn:schemas-panasonic-com:vli")]
 	public class X_ACE_LIST
 	{
 		[XmlElement(ElementName = "X_VERSION", Namespace = "urn:schemas-panasonic-com:vli")]

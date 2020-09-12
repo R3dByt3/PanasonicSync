@@ -1,6 +1,4 @@
-﻿using DataStoring;
-using DataStoring.Contracts;
-using DataStoring.Contracts.MovieModels;
+﻿using DataStoring.Contracts.MovieModels;
 using DataStoring.Contracts.UpnpResponse;
 using DataStoring.MovieModels;
 using DataStoring.UpnpResponse;

@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "service", Namespace = "urn:schemas-upnp-org:device-1-0")]
+    [XmlRoot(ElementName = "service", Namespace = "urn:schemas-upnp-org:device-1-0")]
 	public class Service
 	{
 		[XmlElement(ElementName = "serviceType", Namespace = "urn:schemas-upnp-org:device-1-0")]

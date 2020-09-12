@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "device", Namespace = "urn:schemas-upnp-org:device-1-0")]
+    [XmlRoot(ElementName = "device", Namespace = "urn:schemas-upnp-org:device-1-0")]
 	public class Device
 	{
 		[XmlElement(ElementName = "deviceType", Namespace = "urn:schemas-upnp-org:device-1-0")]

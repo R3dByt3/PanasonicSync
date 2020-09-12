@@ -2,7 +2,7 @@
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "X_IPPLTV_LIST", Namespace = "urn:schemas-panasonic-com:vli")]
+    [XmlRoot(ElementName = "X_IPPLTV_LIST", Namespace = "urn:schemas-panasonic-com:vli")]
 	public class X_IPPLTV_LIST
 	{
 		[XmlElement(ElementName = "X_IPPLTV_VERSION", Namespace = "urn:schemas-panasonic-com:vli")]

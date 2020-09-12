@@ -3,7 +3,7 @@
 namespace DataStoring.PanasonicResponse
 {
 
-	[XmlRoot(ElementName = "res", Namespace = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/")]
+    [XmlRoot(ElementName = "res", Namespace = "urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/")]
 	public class RemoteMovie
 	{
 		[XmlAttribute(AttributeName = "ChapterList", Namespace = "urn:schemas-panasonic-com:pxn")]

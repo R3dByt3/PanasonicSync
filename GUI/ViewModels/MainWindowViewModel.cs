@@ -1,12 +1,9 @@
 ﻿using Caliburn.Micro;
-using Configuration.Contracts;
 using DataStoring.Contracts;
 using DataStoring.Contracts.UpnpResponse;
-using DataStoring.UpnpResponse;
 using MahApps.Metro.Controls.Dialogs;
 using NetStandard.Logger;
 using Ninject;
-using PanasonicSync.GUI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

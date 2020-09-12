@@ -1,5 +1,4 @@
-﻿using Configuration.Contracts;
-using DataStoring.Contracts;
+﻿using DataStoring.Contracts;
 using DataStoring.Contracts.UpnpResponse;
 using NetStandard.Logger;
 using Ninject;
@@ -24,10 +23,10 @@ namespace UpnpClient
         private readonly IKernel _kernel;
         private readonly ISettings _settings;
 
-        private readonly IPEndPoint _localEndPoint;
+        private readonly List<IPEndPoint> _localEndPoints;
         private readonly IPEndPoint _multicastEndPoint;
 
-        public string LocalIP { get; private set; }
+        public List<string> LocalIPs { get; }
 
         public Client(IKernel kernel, ILoggerFactory loggerFactory)
         {
@@ -36,12 +35,17 @@ namespace UpnpClient
             _settings = _kernel.Get<ISettings>();
 
             var ipaddresses = GetAllLocalIPv4(NetworkInterfaceType.Ethernet).Union(GetAllLocalIPv4(NetworkInterfaceType.Wireless80211));
-            string ipaddress = ipaddresses.FirstOrDefault();
-            LocalIP = ipaddress;
-            _logger.Debug($"Machine IP = {ipaddress}");
+            LocalIPs = ipaddresses.ToList();
+
+            _localEndPoints = new List<IPEndPoint>();
+
+            foreach(var ipaddress in LocalIPs)
+            {
+                _logger.Debug($"Machine IP = {ipaddress}");
+                _localEndPoints.Add(new IPEndPoint(IPAddress.Parse(ipaddress), 60000));
+            }
 
             _multicastEndPoint = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 1900);
-            _localEndPoint = new IPEndPoint(IPAddress.Parse(ipaddress), 60000);
         }
 
         public IEnumerable<string> GetAllLocalIPv4(NetworkInterfaceType type)
@@ -63,47 +67,50 @@ namespace UpnpClient
 
         public IEnumerable<IPanasonicDevice> SearchUpnpDevices()
         {
-            using (Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
+            foreach (var localEndPoint in _localEndPoints)
             {
-
-                udpSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-                udpSocket.Bind(_localEndPoint);
-                udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption(_multicastEndPoint.Address, IPAddress.Any));
-                udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 2);
-                udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastLoopback, true);
-
-                _logger.Debug("UDP-Socket setup done...");
-
-                udpSocket.SendTo(Encoding.UTF8.GetBytes(SearchString), SocketFlags.None, _multicastEndPoint);
-
-                _logger.Debug("M-Search sent...");
-
-                byte[] receiveBuffer = new byte[64000];
-
-                int receivedBytes = 0;
-
-                Stopwatch s = new Stopwatch();
-                s.Start();
-                while (s.Elapsed < TimeSpan.FromSeconds(_settings.DeviceDiscoveringTime))
+                using (Socket udpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
                 {
-                    if (udpSocket.Available > 0)
+
+                    udpSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+                    udpSocket.Bind(localEndPoint);
+                    udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption(_multicastEndPoint.Address, IPAddress.Any));
+                    udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 2);
+                    udpSocket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastLoopback, true);
+
+                    _logger.Debug("UDP-Socket setup done...");
+
+                    udpSocket.SendTo(Encoding.UTF8.GetBytes(SearchString), SocketFlags.None, _multicastEndPoint);
+
+                    _logger.Debug("M-Search sent...");
+
+                    byte[] receiveBuffer = new byte[64000];
+
+                    int receivedBytes = 0;
+
+                    Stopwatch s = new Stopwatch();
+                    s.Start();
+                    while (s.Elapsed < TimeSpan.FromSeconds(_settings.DeviceDiscoveringTime))
                     {
-                        receivedBytes = udpSocket.Receive(receiveBuffer, SocketFlags.None);
-
-                        if (receivedBytes > 0)
+                        if (udpSocket.Available > 0)
                         {
-                            var device = _kernel.Get<IPanasonicDevice>();
-                            device.FillFromString(Encoding.UTF8.GetString(receiveBuffer, 0, receivedBytes));
+                            receivedBytes = udpSocket.Receive(receiveBuffer, SocketFlags.None);
 
-                            _logger.Debug($"Found device: {device}");
+                            if (receivedBytes > 0)
+                            {
+                                var device = _kernel.Get<IPanasonicDevice>();
+                                device.FillFromString(Encoding.UTF8.GetString(receiveBuffer, 0, receivedBytes));
 
-                            yield return device;
+                                _logger.Debug($"Found device: {device}");
+
+                                yield return device;
+                            }
                         }
+                        else
+                            Thread.Sleep(100);
                     }
-                    else
-                        Thread.Sleep(100);
+                    s.Stop();
                 }
-                s.Stop();
             }
         }
     }

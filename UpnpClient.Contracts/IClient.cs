@@ -5,7 +5,7 @@ namespace UpnpClient.Contracts
 {
     public interface IClient
     {
-        string LocalIP { get; }
+        List<string> LocalIPs { get; }
 
         IEnumerable<IPanasonicDevice> SearchUpnpDevices();
     }

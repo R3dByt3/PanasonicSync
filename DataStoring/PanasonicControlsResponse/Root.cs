@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace DataStoring.PanasonicControlsResponse
 {
-	[XmlRoot(ElementName = "root", Namespace = "urn:schemas-upnp-org:device-1-0")]
+    [XmlRoot(ElementName = "root", Namespace = "urn:schemas-upnp-org:device-1-0")]
 	public class Root
 	{
 		[XmlElement(ElementName = "specVersion", Namespace = "urn:schemas-upnp-org:device-1-0")]
