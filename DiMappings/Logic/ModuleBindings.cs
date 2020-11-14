@@ -3,8 +3,6 @@ using APIClient.Panasonic;
 using Caliburn.Micro;
 using Configuration;
 using Configuration.Contracts;
-using DataStorage;
-using DataStorage.Contracts;
 using FFmpegStandardWrapper.Abstract.Core;
 using FFmpegStandardWrapper.Core;
 using NetStandard.IO.Compression;
@@ -30,7 +28,6 @@ namespace DiMappings.Logic
             Bind<ICompressor>().To<Compressor>();
             Bind<IConfigurator>().To<Configurator>()
                 .InSingletonScope();
-            Bind<IDatabaseAccess>().To<DatabaseAccess>();
             Bind<IClient>().To<Client>();
             Bind<IPanasonicClient>().To<PanasonicClient>();
 

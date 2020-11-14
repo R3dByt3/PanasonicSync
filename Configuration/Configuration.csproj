@@ -35,9 +35,6 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetStandard.IO">
-      <HintPath>..\..\NetStandard.IO\NetStandard.IO\bin\Release\netstandard2.0\NetStandard.IO.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -62,10 +59,6 @@
       <Project>{ACDEC481-613F-457E-B707-00AF9F89BFEF}</Project>
       <Name>Configuration.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataStorage.Contracts\DataStorage.Contracts.csproj">
-      <Project>{4C04196A-A482-4514-B8B2-AC07C559F746}</Project>
-      <Name>DataStorage.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataStoring.Contracts\DataStoring.Contracts.csproj">
       <Project>{D5E4C2FC-43C9-452A-8E38-E1F09493DC1E}</Project>
       <Name>DataStoring.Contracts</Name>
@@ -73,6 +66,10 @@
     <ProjectReference Include="..\DataStoring\DataStoring.csproj">
       <Project>{B7E74531-2E05-4D26-A3F0-D3AC55DB33C8}</Project>
       <Name>DataStoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\NetStandard.IO\NetStandard.IO.csproj">
+      <Project>{3519ba71-e15d-437d-8515-4ba313e9caf9}</Project>
+      <Name>NetStandard.IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

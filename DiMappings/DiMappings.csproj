@@ -36,16 +36,6 @@
     <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
-    <Reference Include="FFmpegStandardWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\FFmpegStandardWrapper\FFmpegStandardWrapper\bin\Release\netstandard2.0\FFmpegStandardWrapper.dll</HintPath>
-    </Reference>
-    <Reference Include="NetStandard.IO">
-      <HintPath>..\..\NetStandard.IO\NetStandard.IO\bin\Release\netstandard2.0\NetStandard.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="NetStandard.Logger">
-      <HintPath>..\..\NetStandard.Logger\NetStandard.Logger\bin\Release\netstandard2.0\NetStandard.Logger.dll</HintPath>
-    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -85,14 +75,6 @@
       <Project>{E6FCA86F-CC73-4231-8FA5-4BA63C103E98}</Project>
       <Name>Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataStorage.Contracts\DataStorage.Contracts.csproj">
-      <Project>{4C04196A-A482-4514-B8B2-AC07C559F746}</Project>
-      <Name>DataStorage.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataStorage\DataStorage.csproj">
-      <Project>{9E8643F7-17BE-4F40-B077-457070CE71E0}</Project>
-      <Name>DataStorage</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataStoring.Contracts\DataStoring.Contracts.csproj">
       <Project>{D5E4C2FC-43C9-452A-8E38-E1F09493DC1E}</Project>
       <Name>DataStoring.Contracts</Name>
@@ -100,6 +82,18 @@
     <ProjectReference Include="..\DataStoring\DataStoring.csproj">
       <Project>{B7E74531-2E05-4D26-A3F0-D3AC55DB33C8}</Project>
       <Name>DataStoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\FFmpegStandardWrapper\FFmpegStandardWrapper.csproj">
+      <Project>{b72464a0-f2a6-4b40-8fda-1e4dd7edfe3d}</Project>
+      <Name>FFmpegStandardWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\NetStandard.IO\NetStandard.IO.csproj">
+      <Project>{3519ba71-e15d-437d-8515-4ba313e9caf9}</Project>
+      <Name>NetStandard.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dependencies\NetStandard.Logger\NetStandard.Logger.csproj">
+      <Project>{d4f04bd1-8d38-4f16-8633-fdd427f61eda}</Project>
+      <Name>NetStandard.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\UpnpClient.Contracts\UpnpClient.Contracts.csproj">
       <Project>{C5262AAD-7555-47FD-847A-49877E48AB12}</Project>
