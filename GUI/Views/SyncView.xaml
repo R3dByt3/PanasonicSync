@@ -68,14 +68,14 @@
                 Style="{DynamicResource DefaultButtonStyle}"
                 Content="{Binding TranslationProvider.Stop}"/>-->
 
-        <local:ProgressbarView Grid.Row="2"
-                               Grid.ColumnSpan="2"
-                               cal:View.Model="{Binding DownloadProgressbar}"/>
-        <local:ProgressbarView Grid.Row="3"
-                               Grid.ColumnSpan="2"
-                               cal:View.Model="{Binding ConversionProgressbar}"/>
-        <local:ProgressbarView Grid.Row="4"
-                               Grid.ColumnSpan="2"
-                               cal:View.Model="{Binding TransferProgressbar}"/>
+        <UserControl Grid.Row="2"
+                     Grid.ColumnSpan="2"
+                     cal:View.Model="{Binding DownloadProgressbar}"/>
+        <UserControl Grid.Row="3"
+                     Grid.ColumnSpan="2"
+                     cal:View.Model="{Binding ConversionProgressbar}"/>
+        <UserControl Grid.Row="4"
+                     Grid.ColumnSpan="2"
+                     cal:View.Model="{Binding TransferProgressbar}"/>
     </Grid>
 </UserControl>

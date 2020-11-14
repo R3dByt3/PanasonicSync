@@ -28,6 +28,11 @@ namespace PanasonicSync.GUI.ViewModels
             }
         }
 
+        public MovieViewModel()
+        {
+
+        }
+
         public MovieViewModel(IMovieFile movie)
         {
             Movie = movie;
