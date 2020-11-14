@@ -41,8 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Translations", "Translation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationsCore", "TranslationsCore\TranslationsCore.csproj", "{CACA5902-0ACF-49A2-BE77-F8E2FB9B0C80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{53904941-F9E7-4358-A240-C9025EEB996C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{53904941-F9E7-4358-A240-C9025EEB996C}"
 	ProjectSection(SolutionItems) = preProject
+		info.bin = info.bin
+		Readme.md = Readme.md
 		Setup\setup.ifp = Setup\setup.ifp
 	EndProjectSection
 EndProject
